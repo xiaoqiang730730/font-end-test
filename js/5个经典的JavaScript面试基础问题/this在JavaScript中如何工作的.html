@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>this在JavaScript中如何工作的</title>
+</head>
+<body>
+	<script type="text/javascript">
+	var fullname = 'John Doe';
+	var obj = {
+	   fullname: 'Colin Ihrig',
+	   prop: {
+	      fullname: 'Aurelio De Rosa',
+	      getFullname: function() {
+	         return this.fullname;
+	      }
+	   }
+	};
+
+	console.log(obj.prop.getFullname());
+
+	var test = obj.prop.getFullname;
+
+	console.log(test());
+
+	console.log(test.apply(obj));//运用apply 将上下文指到obj对象上
+	/**
+	 *
+	 * 答案是Aurelio De Rosa和John Doe。
+	 * 原因是，在一个函数中，this的行为，
+	 * 取决于JavaScript函数的调用方式和定义方式，
+	 * 而不仅仅是看它如何被定义的。
+
+		在第一个 console.log()调用中，
+		getFullname() 被调用作为obj.prop对象的函数。
+		所以，上下文指的是后者，函数返回该对象的fullname。
+		与此相反，当getFullname()被分配到test变量时，上下文指的是全局对象（window）。
+		这是因为test是被隐式设置为全局对象的属性。
+		出于这个原因，该函数返回window的fullname，即定义在第一行的那个值。
+	 */
+	</script>
+</body>
+</html>

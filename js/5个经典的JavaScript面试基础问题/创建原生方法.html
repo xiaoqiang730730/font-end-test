@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>创建“原生”（native）方法</title>
+</head>
+<body>
+	<script type="text/javascript">
+
+	/*
+	
+	 给字符串对象定义一个repeatify功能。当传入一个整数n时，它会返回重复n次字符串的结果。例如：
+		console.log('hello'.repeatify(3));
+		应打印 hellohellohello。
+
+	*/
+		String.prototype.repeatify=String.prototype.repeatify||function(n){
+			var s="";
+			for(var i=0;i<n;i++){
+				s+=this;
+			}
+			return s;
+		}
+
+		console.log("hello".repeatify(4));
+
+		/*
+		
+
+			这个问题测试的是开发者有关JavaScript继承和prototype的知识点。这也验证了开发者是否知道该如果扩展内置对象（尽管这不应该做的）。
+
+			这里的另一个要点是，你要知道如何不覆盖可能已经定义的功能。通过测试一下该功能定义之前并不存在：
+
+			String.prototype.repeatify = String.prototype.repeatify || function(times) {/code here};
+			当你被要求做好JavaScript函数兼容时这种技术特别有用。
+
+		 */
+	</script>
+</body>
+</html>

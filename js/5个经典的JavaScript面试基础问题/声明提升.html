@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>声明提升</title>
+</head>
+<body>
+	<script type="text/javascript">
+	/**/
+	  function test() {
+		   console.log(a);
+		   console.log(foo());
+		   var a = 1;
+		   function foo() {
+		      return 2;
+		   }
+		}
+
+		test();
+	 /*
+		这段代码的结果是 undefined 和 2。
+	 	
+		原因是，变量和函数的声明都被提前了（移到了函数的顶部），但变量不分配任何值。因此，在打印变量的时候，它在函数中存在（它被声明了），但它仍然是 undefined 。表示换句话说，上面的代码等同于以下内容：
+	  */
+		 function test() {
+		    var a;
+		    function foo() {
+		       return 2;
+		    }
+
+		    console.log(a);
+		    console.log(foo());
+
+		    a = 1;
+		 }
+
+		 test();
+	</script>
+</body>
+</html>
