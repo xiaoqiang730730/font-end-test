@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>member_dynamic_dynaInfos</title>
+	<meta  name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<style type="text/css">
+		.noresult-p{
+			text-align:center;
+		}
+		i{
+			color:#FF4545;
+			font-style: normal;
+		}
+		header{
+			height:3rem;
+			line-height:3rem;
+			width:100%;
+			padding-left:1rem;
+			background:#EDEDED;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+		}
+		li{
+			width:90%;
+			margin:0px 5% 0px 5%;
+			display:-webkit-box;
+			display:-webkit-flex;
+			display:flex;
+		}
+		li p {
+			-webkit-box-flex:1;
+			-webkit-flex:1;
+			flex:1;
+			padding:1rem 0 1rem 0;
+			border-bottom:1px solid #999999;
+
+			white-space: nowrap; 
+			overflow: hidden; 
+			text-overflow: ellipsis;
+		}
+		.time{
+			width:6rem;
+			padding:1rem 0 1rem 0;
+			text-align:right;
+			border-bottom:1px solid #999999;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<span class="left">共有<i id="num">0</i>个动态</span>
+	</header>
+	<script type="text/template" id="memberDynamicTem">
+		{{ if(it.total==0){ }}
+			<p class="noresult-p"><img src="../image/noresult.png"/></p>
+		{{ }else{ }}
+			{{for(var i=0;i<it.length;i++){ }}
+				<li>
+					<p  tapmode="" onclick="openDynamicDetail({{=it[i].id}})">{{=it[i].title}}</p><span class='time'>{{=it[i].time}}</span>
+				</li>
+			{{ } }}
+		{{ } }}
+	</script>
+
+	<ul id="memberDynamicCon">
+	</ul>
+	<script type="text/javascript" src="../script/doT.min.js"></script>
+	<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	<script type="text/javascript">
+
+		var dynaInfoLists=[];
+		// 全局页数
+		var staticPage;
+		var param={
+			p:1
+		};
+		// 第一次加载数据
+		var init=true;
+		function changePage(){
+			if(param.p>staticPage){
+				return;
+			}else{
+				param.p=param.p+1;
+			}
+		}
+
+		function memberDynamicLists(id){
+
+			common.getUserDynamicById(id,param,function(result){
+				//console.log(result);
+				if(result.total>0){
+					staticPage=result.pageNum;
+					$("#num").text(result.total);
+					dynaInfoLists.push.apply(dynaInfoLists,result.lists);
+					common.templateData("#memberDynamicTem","#memberDynamicCon",dynaInfoLists);
+				}
+			});
+		}
+		function openDynamicDetail(id){
+			api.openWin({
+				name:"circle_dynamic_detail",
+				url:"./circle_dynamic_detail.html",
+				pageParam:{circle_dynamic_id:id}
+			});
+		}
+		//memberDynamicLists(75);
+		apiready=function(){
+			memberDynamicLists(api.pageParam.member_dynamic_dynaInfos);
+
+			// 下拉刷新
+			api.setRefreshHeaderInfo({
+                    visible: true,
+                    bgColor: '#f2f2f2',
+                    textColor: '#4d4d4d',
+                    textDown: '下拉刷新...',
+                    textUp: '松开刷新...',
+                    showTime: true
+                }, function(ret, err) {
+	                memberDynamicLists(api.pageParam.member_dynamic_dynaInfos);
+                    api.refreshHeaderLoadDone();
+            });
+
+			// 拉到最下面更新数据
+		    api.addEventListener({
+			    name: 'scrolltobottom'
+			}, function(ret, err){
+				changePage();
+			    memberDynamicLists(api.pageParam.member_dynamic_dynaInfos);
+			});
+            
+		}
+	</script>
+</body>
+</html>

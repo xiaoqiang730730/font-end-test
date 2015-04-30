@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>供求</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css">
+    <style type="text/css">
+        header{
+            display:-webkit-box;
+            display:-webkit-flex;
+            display:flex;
+            width:100%;
+            height:50px;
+            background-color:#fe4444;
+            color:#fff;
+            text-align:center;
+            line-height:50px;
+        }
+        .select{
+            -webkit-box-flex:1;
+            -webkit-flex:1;
+            flex:1;
+            box-sizing: border-box;
+            color:#fff;
+            border-top:1px solid rgba(255,255,255, 0.302);
+        }
+        .separate{
+            height:40px;
+            margin:auto;
+            width:1px;
+            background-color:rgba(255,255,255, 0.302);
+        }
+        .leftSeparate{
+            position:relative;
+        }
+        .leftSeparate:after{
+            position:absolute;
+            content:"";
+            width:1px;
+            height:40px;
+            top:5px;
+            right:0;
+            background-color:rgba(255,255,255, 0.6);
+        }
+        .leftSelectAceDown{
+            position:relative;
+        }
+        .leftSelectAceDown:before{
+            position:absolute;
+            content:"";
+            width:0;
+            height:0;
+            border:6px solid transparent;
+            border-top-color:#fff;
+            right:20%;
+            top:50%;
+            margin-top:-3px;
+        }
+        .leftSelectAceUp{
+            position:relative;
+        }
+        .leftSelectAceUp:before{
+            position:absolute;
+            content:"";
+            width:0;
+            height:0;
+            border:6px solid transparent;
+            border-bottom-color:#fff;
+            right:20%;
+            top:50%;
+            margin-top:-9px;
+        }
+        #main{
+            width:100%;
+            overflow:auto;
+        }
+        ul{
+            width:100%;
+        }
+        ul li{
+            border-bottom: 1px solid #e6e6e6; 
+            overflow: hidden; 
+        }
+        ul li.active{
+            background-color: #f2f2f2;
+            display:-webkit-box;
+            display:-weblit-flex;
+            display:flex;
+            -webkit-box-orient: vertical;
+        }
+        ul li span{ 
+            display:inline-block;
+            color:#fff;
+            padding:1%;
+            margin-right:2%;
+        }
+        ul li p{
+            -webkit-box:1;
+            -webkit-flex:1;
+            flex:1;
+            
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis;
+            color: #3b3b3b;
+        }
+        ul li p:nth-child(1){
+            padding:5% 2% 1% 5%;
+        }
+        ul li p:nth-child(2){
+            color:#999999;
+            padding:1% 2% 5% 5%;
+        }
+        .sale{
+            background-color:#60AFFF;
+        }
+        .buy{
+            background-color:#FF745E;
+        }
+    </style>
+</head>
+<body>
+    <header id="supplyHeader">
+        <div class="select leftSelectAceDown leftSeparate" onclick="supplyClassFrame.call(this)">分类</div>
+        
+        <div id="select_zone" class="select leftSelectAceDown leftSeparate" onclick="supplyCityFrame.call(this)" tapmode>地区</div>
+        
+        <div class="select leftSelectAceDown" onclick="supplyFilterFrame.call(this)">筛选</div>
+    </header>
+    <section id="main">
+        <!-- <ul id="infoList">
+            <script type="text/template" id="supplyInfoList">
+                {{for(var i=0,len=it.length; i<len;i++){ }}
+                    <li>
+                        <p><span class="{{=it[i].buyOrSaleClass}}">{{=it[i].buyOrSaleText}}</span>{{=it[i].title}}</p>
+                        <p>{{=it[i].subTitle}}</p>
+                    </li>
+                {{ } }}
+            </script>
+        </ul> -->
+    </section>
+    <script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="../script/doT.min.js"></script>
+    <script type="text/javascript" src="../script/common.js"></script>
+    <script type="text/javascript">
+        
+        function openCityListWin(){
+            api.openWin({
+                name: 'supply_citySelect',
+                url: './supply_citySelect.html',
+                reload:true
+            });
+        }
+
+        function updateCity(city){
+            $("#select_zone").text(city);       
+        }
+
+        function mainHeight(){
+            var main=$("#main");
+            main.height($(window).height()-parseInt($("header").height()));
+        }
+
+        // var list=[];
+        // function lists(url){
+        //     mainHeight();
+        //     common.getData(url,data="",function(result){
+        //         //console.log(result);
+        //         var data=result.data.data;
+        //         for (var i = 0; i < data.length; i++) {
+        //             list.push({
+        //                 id:data[i].id,
+        //                 buyOrSaleClass:data[i].buy_or_sale==1?"sale":"buy",
+        //                 buyOrSaleText:data[i].buy_or_sale==1?"销售":"采购",
+        //                 title:data[i].title,
+        //                 subTitle:data[i].user.nickname+"|"+common.timeFormate(data[i].create_time)
+        //             })
+        //         };
+        //         templateData(list);
+        //     });
+        // }
+
+        // function templateData(data){
+        //     var infoList=$("#infoList");
+        //     var teplate=$("#supplyInfoList").text();
+        //     var temp=doT.template(teplate);
+        //     infoList.html("");
+        //     infoList.html(temp(data));
+        //     //listClick();
+        // }
+
+        // //lists("/demand/getlist");
+
+        // // 
+        // var listClick=function(){
+        //     var lis=$("#infoList li");
+        //     lis.each(function(index, el) {
+        //         $(el).bind('click',function(){
+        //             api.openWin({
+        //                 name: 'supply_detail',
+        //                 pageParam:{supply_detail:list[index].id},
+        //                 url: './supply_detail.html'
+        //             });
+        //         })  
+        //     });
+        // }
+        
+        // 打开供求信息子窗口
+        function showSupplyInfoList(){
+			api.setFrameAttr({
+				name: "supply_infoList",
+				hidden: false
+			});
+        }
+
+        // 关闭供求信息子窗口
+        function hiddenSupplyInfoList(){
+			api.setFrameAttr({
+				name: "supply_infoList",
+				hidden: true
+			});
+        }
+
+        var supplyNavs=$("#supplyHeader div");
+
+        // 分类样式变换-下拉三角
+        function supplyClassDown(){
+            $(supplyNavs[0]).removeClass('leftSelectAceUp').addClass('leftSelectAceDown');
+        }
+        // 分类样式变换-上拉三角
+        function supplyClassUp(){
+            $(supplyNavs[0]).removeClass('leftSelectAceDown').addClass('leftSelectAceUp');
+        }
+        // 地区样式变换-下拉三角
+        function supplyCitySelectDown(){
+            $(supplyNavs[1]).removeClass('leftSelectAceUp').addClass('leftSelectAceDown');
+        }
+        // 地区样式变换-上拉三角
+        function supplyCitySelectUp(){
+            $(supplyNavs[1]).removeClass('leftSelectAceDown').addClass('leftSelectAceUp');
+        }
+        // 筛选样式变换-下拉三角
+        function supplyFilterDown(){
+            $(supplyNavs[2]).removeClass('leftSelectAceUp').addClass('leftSelectAceDown');
+        }
+        // 筛选样式变换-上拉三角
+        function supplyFilterUp(){
+            $(supplyNavs[2]).removeClass('leftSelectAceDown').addClass('leftSelectAceUp');
+        }
+
+        var supplyClassInit=false;
+        // 分类点击切换
+        function supplyClassFrame(){
+            if($(this).hasClass('leftSelectAceUp')){
+                hiddenSupplyClassFrame();
+            }else{
+                showSupplyClassFrame();
+            }
+            var frames=$(this).siblings();
+            frames.each(function(index, el) {
+                if($(el).hasClass('leftSelectAceUp')){
+                    supplyCitySelectDown();
+                    supplyFilterDown();
+                }
+            });
+        }
+
+        // 打开分类窗口
+        function showSupplyClassFrame(){
+            supplyClassUp();
+            showSupplyGroup();
+            api.setFrameGroupIndex({
+                name: 'supplygroup',
+                index:0,
+                scroll:false
+            });
+        }
+
+        // 关闭分类窗口
+        function hiddenSupplyClassFrame(){
+            supplyClassDown();
+            hiddenSupplyGroup();
+        }
+
+        // 点击城市切换
+        function supplyCityFrame(){
+            if($(this).hasClass('leftSelectAceUp')){
+                hideSupplyCityFrame();
+            }else{
+                showSupplyCityFrame();
+            }
+            var frames=$(this).siblings();
+            frames.each(function(index, el) {
+                if($(el).hasClass('leftSelectAceUp')){
+                    supplyClassDown();
+                    supplyFilterDown();
+                }
+            });
+        }
+        // 打开城市窗口
+        function showSupplyCityFrame(){
+            supplyCitySelectUp();
+            showSupplyGroup();
+            api.setFrameGroupIndex({
+                name: 'supplygroup',
+                index:1,
+                scroll:false
+            });
+        }
+        // 关闭城市窗口
+        function hideSupplyCityFrame(){
+            supplyCitySelectDown();
+            hiddenSupplyGroup();
+        }
+
+        // 点击筛选切换
+        function supplyFilterFrame(){
+            if($(this).hasClass('leftSelectAceUp')){
+                hideSupplyFilterFrame();
+            }else{
+                showSupplyFilterFrame();
+            }
+            var frames=$(this).siblings();
+            frames.each(function(index, el) {
+                if($(el).hasClass('leftSelectAceUp')){
+                    supplyClassDown();
+                    supplyCitySelectDown();
+                }
+            });
+        }
+        // 打开筛选窗口
+        function showSupplyFilterFrame(){
+            supplyFilterUp();
+            showSupplyGroup();
+            api.setFrameGroupIndex({
+                name: 'supplygroup',
+                index:2,
+                scroll:false
+            });
+        }
+        // 关闭筛选窗口
+        function hideSupplyFilterFrame(){
+            supplyFilterDown();
+            hiddenSupplyGroup();
+        }
+
+        function showSupplyGroup(){
+            api.setFrameGroupAttr({
+                name:"supplygroup",
+                hidden:false
+            });
+        }
+
+        
+        function hiddenSupplyGroup(){
+            api.setFrameGroupAttr({
+                name:"supplygroup",
+                hidden:true
+            });
+        }
+
+        //lists("/demand/getlist");
+        apiready = function(){
+        		mainHeight();
+        		api.openFrame({
+        		    name:'supply_infoList',
+        		    url:'./supply_infoList.html',
+        		    rect:{
+        		        x:0,
+        		        y:parseInt($("#supplyHeader").height())*2,//默认设置一样高
+        		        w:api.frameWidth,
+        		        h:api.frameHeight-parseInt($("#supplyHeader").height())
+        		    },
+        		    bounces:true,
+        		    vScrollBarEnabled:true,
+        		    hScrollBarEnabled:false
+        		});
+        		hiddenSupplyInfoList();	
+
+                api.openFrameGroup({
+                    scrollEnabled:false,
+                    name:"supplygroup",
+                    bgColor:'rgba(51,51,51,0.6)',
+                    rect:{
+                        x:0,
+                        y:parseInt($("#supplyHeader").height())*2,
+                        w:'auto',
+                        h:'auto'
+                    },
+                    index:0,
+                    frames:
+                    [{
+                        name:'supply_class',
+                        url:"./supply_class.html",
+                        bounces:false,
+                        opauqe:false,
+                        vScrollBarEnabled: false
+                    },{
+                        name:'supply_citySelect',
+                        url:"./supply_citySelect.html",
+                        bounces:false,
+                        opauqe:false,
+                        vScrollBarEnabled: false
+                    },{
+                        name:'supply_filter',
+                        url:"./supply_filter.html",
+                        bounces:false,
+                        opauqe:false,
+                        vScrollBarEnabled: false
+                    }
+                    ]
+                });
+                hiddenSupplyGroup();
+        		// api.alert({msg:api.winHeight});
+        		// api.alert({msg:api.frameHeight});
+        		// api.alert({msg:"height"+$("header").height()});
+            //lists("/demand/getlist");
+    	}
+    </script>
+</body>
+</html>

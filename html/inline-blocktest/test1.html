@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+	<style type="text/css">
+		#circleList{
+    		width:100%;
+    		height:100%;
+    	}
+    	ul li{
+            list-style: none;
+            font-size:0px;
+            height:4rem;
+        }
+    	.circle-img{
+            display:inline-block;
+            width:4rem;
+            height:4rem;
+            background-color:#fff;
+            -webkit-box-sizing:border-box;
+            -moz-box-sizing: border-box;
+            -ms-box-sizing:border-box;
+            -o-box-sizing:border-box;
+            box-sizing: border-box;
+        }
+    	.circle-img img{
+            width:80%;
+            height:80%;
+            margin:10%;
+            -webkit-border-radius:2rem;
+            -moz-border-radius:2rem;
+            -ms-border-radius:2rem;
+            -o-border-radius:2rem;
+            border-radius:2rem;
+        }
+    	.circle-dynamic{
+            width:100%;
+            height:4rem;
+            display:inline-block;
+            position:absolute;
+            padding-left:4rem;
+            margin-left:-4rem;
+            z-index:-1;
+            border-bottom:1px solid #e6e6e6;
+            -webkit-box-sizing:border-box;
+            -moz-box-sizing: border-box;
+            -ms-box-sizing:border-box;
+            -o-box-sizing:border-box;
+            box-sizing: border-box;
+        }
+    	.circle-dynamic p{
+            height:2rem;
+            font-size:1rem;
+            -webkit-box-sizing:border-box;
+            -moz-box-sizing: border-box;
+            -ms-box-sizing:border-box;
+            -o-box-sizing:border-box;
+            box-sizing: border-box;
+        }
+    	.circle-dynamic p:nth-child(1){
+            line-height:2.5rem;
+            padding-right:1rem;
+        }
+        .circle-dynamic p:nth-child(2){
+            line-height:1.5rem;
+            padding-right:1rem;
+            color:#999999;;
+        }
+        .noresult-p{
+            text-align:center;
+        }
+        p{
+            text-overflow: ellipsis;
+            overflow:hidden;
+            white-space:nowrap;
+            font-size:1rem;
+        }
+	</style>
+</head>
+<body>
+	<ul id="circleList">   
+		<li> 
+			<span class="circle-img" tapmode="" onclick="openPersonDymanic('240');">
+				 <img src="http://www.anywood.com/Uploads/Picture/2015-01-04/54a91099cddb5.jpg" data="http://www.anywood.com/Uploads/Picture/2015-01-04/54a91099cddb5.jpg"> 
+			</span> 
+			<div class="circle-dynamic"> 
+				<p tapmode="" onclick="openDynamicDetail('');">&nbsp;</p>
+				<p onclick="openPersonDymanic('240');">春天木业|5分钟前</p> 
+			</div> 
+		</li>
+		<li> 
+			<span class="circle-img" tapmode="" onclick="openPersonDymanic('49');"> 
+				<img src="http://www.anywood.com/Public/muli/images/touxiang.png" data="http://www.anywood.com/Public/muli/images/touxiang.png"> 
+			</span> 
+			<div class="circle-dynamic"> 
+				<p tapmode="" onclick="openDynamicDetail('2');">木材圈即将上线</p> 
+				<p onclick="openPersonDymanic('49');">苏州木里文化传播有限公司|29分钟前</p> 
+			</div> 
+		</li>
+	</ul>
+</body>
+</html>

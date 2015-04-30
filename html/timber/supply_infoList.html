@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>supply_infolist</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,initial-scale=1.0,width=device-width"/>
+	<link rel="stylesheet" type="text/css" href="../css/api.css">
+	<style type="text/css">
+		ul li{
+			border-bottom: 1px solid #e6e6e6; 
+			overflow: hidden; 
+		}
+		ul li.active{
+			background-color: #f2f2f2;
+			display:-webkit-box;
+			display:-weblit-flex;
+			display:flex;
+			-webkit-box-orient: vertical;
+		}
+		ul li span{ 
+			display:inline-block;
+			color:#fff;
+			padding:1%;
+			margin-right:2%;
+		}
+		ul li p{
+			-webkit-box:1;
+			-webkit-flex:1;
+			flex:1;
+			
+			white-space: nowrap; 
+			overflow: hidden; 
+			text-overflow: ellipsis;
+			color: #3b3b3b;
+		}
+		ul li p:nth-child(1){
+			padding:4% 2% 1% 4%;
+		}
+		ul li p:nth-child(2){
+			color:#999999;
+			padding:1% 2% 4% 4%;
+		}
+		.sale{
+			background-color:#60AFFF;
+		}
+		.buy{
+			background-color:#FF745E;
+		}
+		.noresult-p{
+            text-align:center;
+        }
+	</style>
+</head>
+<body>
+	
+	<script type="text/x-dot-template" id="supplyInfoList">
+	{{ if(it.length>0){ }}
+		{{for(var i=0,len=it.length; i<len;i++){ }}
+			<li tapmode="" onclick="listClick('{{=it[i].id}}');">
+				<p><span class="{{=it[i].buyOrSaleClass}}">{{=it[i].buyOrSaleText}}</span>{{=it[i].title}}</p>
+				<p>{{=it[i].subTitle}}</p>
+			</li>
+		{{ } }}
+
+	{{ }else{ }}
+		<p class="noresult-p"><img src="../image/noresult.png"/></p>
+	{{}}}
+	</script>
+	<ul id="infoList">
+	</ul>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript" src="../script/doT.min.js"></script>
+	<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	<script type="text/javascript">
+		
+		// 显示数据
+		var list=[];
+
+		// 设置全局页数
+		var p;
+
+		// 第一次显示数据
+		var init=true;
+
+		//设置参数
+		var param={
+			root:"all",
+			p:1,
+			category:"demand",
+			group:"",
+			tag:"",
+			area:"",
+			order:""
+		};
+
+        function resetInit(){
+            list=[];
+            param["p"]=1;// 初始化页数 其他参数可以保留
+
+            init=true;
+        }
+        // 根据tag重新加载供求信息
+        function supplyListReloadByTag(tag){
+        	resetInit();
+        	param.root="all";
+        	param.category="demand";
+        	param.group="";
+        	param.area="";
+        	param.order="";
+        	param.tag=tag;
+        	lists("/demand/getlist");
+        }
+
+        // 根据地区重新加载供求信息
+        function supplyListReloadByCity(city){
+        	resetInit();
+        	param.area=city;
+        	lists("/demand/getlist");
+        }
+
+        // 根据分类重新加载供求信息
+        function supplyListReloadByClass(firstId,secondId,thirdS){
+            resetInit();
+            filterChange("category",firstId);
+            filterChange("group",secondId);
+            filterChange("tag",thirdS);
+            lists("/demand/getlist");
+            api.execScript({
+            	name:"root",
+            	frameName:"supply",
+            	script:"hiddenSupplyClassFrame()"
+            });
+
+        }
+
+		function filterChange(type,s,filter){
+			// 默认不是筛选是更新数据
+			filter=filter||false;
+			
+			// 筛选后更新数据
+			if(filter){
+				list=[];
+				param["p"]=1;
+				init=true;
+			}
+			for(var i in param){
+				if(type==i){
+					if(type=="p"&&s>p){
+						return;
+					}else{
+						param[type]=s;
+					}
+					return;
+				}
+			}
+			alert("不存在！！！！！");
+		}
+
+		function lists(url,filter){
+
+		    // 第一次不用判断
+		    if(!init){
+		    	if(param["p"]>p){
+		    		return;
+		    	}
+		    }
+		    
+			// // 显示加载窗口
+		 //    api.showProgress({
+		 //        title: '加载中...',
+		 //        modal: false
+		 //    });
+		    
+			common.getData(url,param,function(result){
+				
+				var data=result.data.data;
+
+				// 第一次数据加载
+				if(init){
+					// 获得总页数向上舍入
+					p=Math.ceil(result.data.total/result.data.pagesize);
+					init=false;
+				}
+				
+				for (var i = 0; i < data.length; i++) {
+					list.push({
+						id:data[i].id,
+						buyOrSaleClass:data[i].buy_or_sale==1?"sale":"buy",
+						buyOrSaleText:data[i].buy_or_sale==1?"销售":"采购",
+						title:data[i].title,
+						subTitle:data[i].user.nickname+"|"+common.timeFormate(data[i].create_time)
+					})
+				};
+				common.templateData("#supplyInfoList","#infoList",list);
+				
+	    		// 隐藏加载窗口
+                //api.hideProgress();
+			});
+		}
+
+		function templateData(data){
+			var infoList=$("#infoList");
+            var teplate=$("#supplyInfoList").text();
+            //api.alert({msg:"replate"+teplate});
+            var temp=doT.template(teplate);
+            infoList.html("");
+            infoList.html(temp(data));
+            //api.alert({msg:"infoListHtml"+infoList.html()});
+            //listClick();
+        }
+
+        // 供求详情页
+		var listClick=function(id){
+			api.openWin({
+    		    name: 'supply_detail',
+                pageParam:{supply_detail:id},
+    		    url: './supply_detail.html'
+    		});
+		}
+
+		window.onload=function(){
+			//listClick();
+		}
+		
+		// filterChange("p",2);
+		// lists("/demand/getlist");
+		apiready=function(){
+
+			// 开始初始化数据
+			lists("/demand/getlist");
+
+			//
+			api.setRefreshHeaderInfo({
+                    visible: true,
+                    bgColor: '#f2f2f2',
+                    textColor: '#4d4d4d',
+                    textDown: '下拉刷新...',
+                    textUp: '松开刷新...',
+                    showTime: true
+                }, function(ret, err) {
+                	filterChange("p",1,true);
+                    lists("/demand/getlist");
+                    api.refreshHeaderLoadDone();
+            });
+
+			// 拉到最下面更新数据
+		    api.addEventListener({
+			    name: 'scrolltobottom'
+			}, function(ret, err){
+				filterChange("p",++param["p"]);
+			    lists("/demand/getlist");
+			});
+
+		}
+	</script>
+</body>
+</html>

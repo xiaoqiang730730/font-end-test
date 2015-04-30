@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style type="text/css">
+		.test{
+			display: -moz-box; 
+    		display: -webkit-box; 
+    		display: box;
+    		-webkit-box-orient:vertical;
+			width:800px;
+			height:900px;
+			margin: 40px auto; 
+    		padding: 20px; 
+			background: #f0f3f9;
+		}
+		.test div{
+			-moz-box-flex: 1; 
+			-webkit-box-flex: 1; 
+			box-flex: 1;
+		}
+		.test div a{
+			height:100%;
+			width:100%;
+			display: -moz-box; 
+    		display: -webkit-box; 
+    		display: box;
+			-webkit-box-orient:horizontal;
+		}
+		.test div a div{
+			-moz-box-flex: 1; 
+			-webkit-box-flex: 1; 
+			box-flex: 1;
+		}
+		.test div a p{
+			-moz-box-flex: 1; 
+			-webkit-box-flex: 1; 
+			box-flex: 1;
+		}
+	</style>
+</head>
+<body>
+	<div class="test">
+		<div>
+			<a href="">
+				<div>asdasdasdasdsd</div>
+				<p>dasds</p>
+			</a>
+		</div>
+		<div>
+			<a href="">
+				<div>asdasdasd</div>
+				<p>asdasdad</p>
+			</a>
+		</div>
+		<div>
+			<a href="">
+				<div>aaaaaaaaaaaaaaaaaaa</div>
+				<p>asdasddddddddddddddddd</p>
+			</a>
+		</div>
+	</div>
+</body>
+</html>

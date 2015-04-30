@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>dot.js</title>
+</head>
+<body>
+	<ul id='showInfo'>
+		<script type="text/template" charset="utf-8" id='template_1'>
+			{{if( it && it.length>0 ){ }}
+			{{for(var i=0; i<it.length; i++){ }}
+				<li>{{=it[i].name}}</li>
+			{{ } }}
+			{{ }else{ }}
+				<li>没有数据</li>
+			{{ } }}
+		</script>
+	</ul>
+	<br>
+	<hr >
+	<br>
+	<ul id='showInfo2'>
+	</ul>
+	<script type="text/javascript" src="doT.min.js"></script>
+	<script type="text/javascript">
+		var template=document.getElementById('template_1').innerHTML;
+
+		var obj=[{name:'d1'},{name:'d2'},{name:'d3'}];
+
+		//传递一个有数据的数组进去
+
+		document.getElementById('showInfo').innerHTML=doT.template( template )( obj );
+
+		//传入的数据为空
+
+		document.getElementById('showInfo2').innerHTML=doT.template( template )( [] );
+	</script>
+</body>
+</html>

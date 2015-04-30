@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>圈子</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css">
+    <style type="text/css">
+        html{
+            background: transparent;
+        }
+    	#circleList{
+    		width:100%;
+    		height:100%;
+    	}
+    	ul li{
+            list-style: none;
+            font-size:0px;
+            height:4rem;
+        }
+    	.circle-img{
+            display:inline-block;
+            width:4rem;
+            height:4rem;
+            background-color:#fff;
+            -webkit-box-sizing:border-box;
+            -moz-box-sizing: border-box;
+            -ms-box-sizing:border-box;
+            -o-box-sizing:border-box;
+            box-sizing: border-box;
+        }
+    	.circle-img img{
+            width:80%;
+            height:80%;
+            margin:10%;
+            -webkit-border-radius:50%;
+            -moz-border-radius:50%;
+            -ms-border-radius:50%;
+            -o-border-radius:50%;
+            border-radius:50%;
+        }
+    	.circle-dynamic{
+            width:100%;
+            height:4rem;
+            display:inline-block;
+            position:absolute;
+            padding-left:4rem;
+            margin-left:-4rem;
+            z-index:-1;
+            border-bottom:1px solid #e6e6e6;
+            -webkit-box-sizing:border-box;
+            -moz-box-sizing: border-box;
+            -ms-box-sizing:border-box;
+            -o-box-sizing:border-box;
+            box-sizing: border-box;
+        }
+    	.circle-dynamic p{
+            height:2rem;
+            font-size:1rem;
+            -webkit-box-sizing:border-box;
+            -moz-box-sizing: border-box;
+            -ms-box-sizing:border-box;
+            -o-box-sizing:border-box;
+            box-sizing: border-box;
+        }
+    	.circle-dynamic p:nth-child(1){
+            line-height:2.5rem;
+            padding-right:1rem;
+        }
+        .circle-dynamic p:nth-child(2){
+            line-height:1.5rem;
+            padding-right:1rem;
+            color:#999999;;
+        }
+        .noresult-p{
+            text-align:center;
+        }
+        p{
+            text-overflow: ellipsis;
+            overflow:hidden;
+            white-space:nowrap;
+            font-size:1rem;
+        }
+
+    </style>
+</head>
+<body>
+	<script type="text/template" id="circleTemplate">
+        {{if(it.length){}}
+        	{{ for(var i=0;i<it.length;i++){ }}
+        		<li>
+        			<span class="circle-img" tapmode="" onclick="openPersonDymanic('{{=it[i].userId}}');">
+        				<img src="{{=it[i].userImg}}">
+        			</span>
+        			<div class="circle-dynamic" >
+        				<p tapmode="" onclick="openDynamicDetail('{{=it[i].dynamicId}}');">{{=it[i].dynamicTitle}}</p>
+        				<p onclick="openPersonDymanic('{{=it[i].userId}}');">{{=it[i].userNickName}}|{{=it[i].userTime}}</p>
+        			</div>
+        		</li>
+        	{{ } }}
+
+        {{}else{}}
+            <p class="noresult-p"><img src="../image/noresult.png"/></p>
+        {{}}}
+	</script>
+	<ul id="circleList">
+	</ul>
+<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../script/doT.min.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript">
+
+    // 数据显示
+	var circleList=[];
+
+    // 设置全局页数
+    var p;
+
+    // 第一次显示数据
+    var init=true;
+
+    var circleParam={
+        p:1,
+        tag:""
+    }
+	function resetInit(){
+        circleList=[];
+        circleParam.p=1;
+        init=true;
+    }
+	// 区域
+    var staticUrl="http://www.anywood.com";
+
+    function circleChangeByTag(tag){
+        resetInit();
+        circleParam.tag=tag;
+        circle("/circle/getlist");
+    }
+    function circlePageChange(type,s,filter){
+        // 默认不是筛选是更新数据
+        filter=filter||false;
+        
+        // 筛选后更新数据
+        if(filter){
+            circleList=[];
+            circleParam["p"]=1;
+            init=true;
+        }
+        for(var i in circleParam){
+            if(type==i){
+                if(type=="p"&&s>p){
+                    circleParam["p"]=p;
+                }else{
+                    circleParam[type]=s;
+                }
+                return;
+            }
+        }
+        alert("不存在！！！！！");
+    }
+	function circle(url){
+
+        // 第一次不用判断
+        if(!init){
+            if(circleParam["p"]>p){
+                return;
+            }
+        }
+        // 显示加载窗口
+        // api.showProgress({
+        //     title: '加载中...',
+        //     modal: false
+        // });
+
+		common.getData(url,circleParam,function(result){			
+			var data=result.data.data;
+            // 第一次数据加载
+            if(init){
+                // 获得总页数向上舍入
+                p=Math.ceil(result.data.total/result.data.pagesize);
+                init=false;
+            }
+
+			for(var i=0;i<data.length;i++){
+				var message={};
+				// console.log(data[i]);
+				message.userImg=staticUrl+data[i].avatar;// 头像
+				message.dynamicTitle=data[i].dynamic.title||"&nbsp";
+				message.dynamicId=data[i].dynamic.id||"";
+				message.userTime=common.timeFormate(data[i].last_update_time);
+				message.userId=data[i].uid;
+				message.userNickName=data[i].nickname;
+				//console.log(message);
+				circleList.push(message);
+				//console.log(circleList);
+			}
+
+			templateData(circleList);
+            //api.hideProgress();
+		});
+	}
+	 
+	function templateData(data){
+		var infoList=$("#circleList");
+        var teplate=$("#circleTemplate").text();
+        var temp=doT.template(teplate);
+        infoList.html("");
+        infoList.html(temp(data));
+	}
+
+    function openPersonDymanic(id){
+    	api.openWin({
+    		name:"member_dynamic",
+    		url:"./member_dynamic.html",
+    		pageParam:{member_dynamic_id:id}
+    	});
+    }
+
+    function openDynamicDetail(id){
+    	api.openWin({
+    		name:"circle_dynamic_detail",
+    		url:"./circle_dynamic_detail.html",
+    		pageParam:{circle_dynamic_id:id}
+    	});
+    }
+    //circle("/circle/getlist");
+    apiready = function(){
+        circle("/circle/getlist");
+
+        api.setRefreshHeaderInfo({
+                    visible: true,
+                    bgColor: '#f2f2f2',
+                    textColor: '#4d4d4d',
+                    textDown: '下拉刷新...',
+                    textUp: '松开刷新...',
+                    showTime: true
+                }, function(ret, err) {
+                    circlePageChange("p",1,true);
+                    circle("/circle/getlist");
+                    api.refreshHeaderLoadDone();
+            });
+
+        // 拉到最下面更新数据
+        api.addEventListener({
+            name: 'scrolltobottom'
+        }, function(ret, err){
+            circlePageChange("p",++circleParam["p"]);
+            circle("/circle/getlist");
+        });
+    };
+</script>
+</body>
+</html>

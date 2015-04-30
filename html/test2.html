@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>test</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+<meta name="apple-touch-fullscreen" content="YES" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<style type="text/css">
+			* {
+				margin: 0;
+				padding: 0;
+			}
+			html,body {
+				height: 100%;
+			}
+
+			li {
+				list-style:none;
+				position: relative;
+				width: 100%;
+				height: 100px;
+				/* background-color: #ccc; */
+			}
+			li div{
+				width:100%;
+				height:100%;
+				position:absolute;
+				top:0;
+				left:0;
+				z-index:2;
+				margin-left:0px;
+			}
+			ul li:nth-child(1) div{
+				background:#ff0;
+			}
+			ul li:nth-child(2) div{
+				background:#af0;
+			}
+			ul li:nth-child(3) div{
+				background:#bd0;
+			}
+			ul li:nth-child(4) div{
+				background:#ebd;
+			}
+			ul li:nth-child(5) div{
+				background:#f0f;
+			}
+			ul li:nth-child(6) div{
+				background:#0ff;
+			}
+			#con{
+				
+			}
+			span{
+				display:inline-block;
+				width:90px;
+				text-align: center;
+				height: 100%;
+				line-height:100px;
+				position:absolute;
+				top:0;
+				right:0;
+				background-color:red;
+			}
+			
+</style>
+</head>
+<body>
+<ul id="test">
+	<li id="canvas">
+		<div id="con">呵呵呵</div>
+		<span id="del">删除</span>
+	</li>
+	<li id="canvas2">
+		<div id="con2">呵呵呵</div>
+		<span id="del2">删除</span>
+	</li>
+	<li id="canvas3">
+		<div id="con3">呵呵呵</div>
+		<span id="del3">删除</span>
+	</li>
+	<li id="canvas4">
+		<div id="con4">呵呵呵</div>
+		<span id="del4">删除</span>
+	</li>
+	<li id="canvas5">
+		<div id="con5">呵呵呵</div>
+		<span id="del5">删除</span>
+	</li>
+	<li id="canvas6">
+		<div id="con6">呵呵呵</div>
+		<span id="del6">删除</span>
+	</li>
+	</ul>
+	<script type="text/javascript">
+	var startX;
+	var dt=0;
+	var currentDelete=null;
+	function touchStart(event){
+		event.preventDefault();
+		var touch=event.touches[0];
+		dt=0;
+		startX=touch.pageX;
+		if(currentDelete){
+			currentDelete.style.webkitTransition = 'margin-left 0.2s ease-out';
+			currentDelete.style.marginLeft="0px";
+		}
+	}
+	
+
+	function touchMove(event){
+		console.log(event.target);
+		if(!currentDelete){
+			event.preventDefault();
+			var touch=event.touches[0];
+			var x=touch.pageX-startX;
+			dt=x;
+			if(x<=0&&x>-90){
+				event.target.style.webkitTransition = 'margin-left 0s ease-out';
+				event.target.style.marginLeft=x+"px";
+			}else if(x<-90){
+				event.target.style.webkitTransition = 'margin-left 0s ease-out';
+				event.target.style.marginLeft="-90px";
+				currentDelete=event.target;
+			}else if(x>0){
+				event.target.style.webkitTransition = 'margin-left 0s ease-out';
+				event.target.style.marginLeft="0px";
+			}
+			//con.style.marginLeft="-90px";
+		}
+	}
+
+
+	function touchEnd(event){
+		event.preventDefault();
+		console.log(dt);
+		if(dt==0){
+			console.log("open chat");
+			if(currentDelete){
+				currentDelete=null;
+			}
+		}else if(dt<0){
+				if(dt>-30){
+					event.target.style.marginLeft="0px";
+					event.target.style.webkitTransition = 'margin-left 0.2s ease-out'
+					currentDelete=null;
+				}else{
+					event.target.style.marginLeft="-90px";
+					event.target.style.webkitTransition = 'margin-left 0.2s ease-out'
+					currentDelete=event.target;
+				}
+			// if(marginLeft){
+			// 	marginLeft=false;
+			// }else{
+			// 	marginLeft=true;
+			// }
+		}
+	}
+
+	function touchDelete(event){
+		// event.target.style.zIndex=1;
+		event.target.style.color="#fff";
+		var nodeParent=event.target.parentNode;
+		nodeParent.style.height="0px";
+		nodeParent.style.webkitTransition="all 0.2s ease-out";
+		nodeParent.addEventListener("webkitTransitionEnd",function(){
+			nodeParent.remove();
+		},false);
+		// nodeParent.remove();
+		currentDelete=null;
+	}
+
+	// var lis=document.getElementsByTagName("li");
+	// for (var i = 0; i < lis.length; i++) {
+	// 	lis[i].addEventListener("touchstart",function(event){
+	// 		if(event.target.nodeName.toLowerCase()=="div"){
+	// 			touchStart(event);
+	// 		}
+	// 	},false);
+	// 	lis[i].addEventListener("touchmove",function(event){
+	// 		if(event.target.nodeName.toLowerCase()=="div"){
+	// 			touchMove(event);
+	// 		}
+	// 	},false);
+	// 	lis[i].addEventListener("touchend",function(event){
+	// 		if(event.target.nodeName.toLowerCase()=="div"){
+	// 			touchEnd(event);
+	// 		}
+	// 		if(event.target.nodeName.toLowerCase()=="span"){
+	// 			touchDelete(event);
+	// 		}
+	// 	},false);
+	// };
+	var ul=document.getElementById("test");
+	ul.addEventListener("touchstart", function(event) {
+		console.log(event.target.nodeName);
+		if (event.target.nodeName.toLowerCase() == "div") {
+			touchStart(event);
+		}
+	}, false);
+	ul.addEventListener("touchmove", function(event) {
+		if (event.target.nodeName.toLowerCase() == "div") {
+			touchMove(event);
+		}
+	}, false);
+	ul.addEventListener("touchend", function(event) {
+		if (event.target.nodeName.toLowerCase() == "div") {
+			touchEnd(event);
+		}
+		if (event.target.nodeName.toLowerCase() == "span") {
+			touchDelete(event);
+		}
+	}, false);
+	</script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<div class="free-upload">
+    <p>上传您的约会照片，一张合影、一张票据哦！</p>
+    <div class="free-upload-photo">
+        <span id="photo_img"></span>
+            <input type="file" id="photo" />
+        </div>
+        <div class="free-upload-bill">
+            <span id="bill_img"></span>
+        <input type="file" id="bill" />
+    </div>
+    <p id="photo_loading">正在上传...</p>
+</div>
+	<script src="http://libs.baidu.com/jquery/1.9.0/jquery.js"></script>
+	<script type="text/javascript">
+		var photo = $('#photo');
+
+		function isCanvasSupported(){
+		    var elem = document.createElement('canvas');
+		    return !!(elem.getContext && elem.getContext('2d'));
+		}
+
+		photo.on('change', function(event){
+
+		    if(!isCanvasSupported()){
+		        return;
+		　　}
+		　　　　　　
+		    compress(event, function(base64Img){
+		    			console.log(base64Img);
+		// 　　　　　　$.ajax({
+		// 　　　　　　'url' : '/?s=free/upload',
+		// 　　　　　　'type' : 'post',
+		// 　　　　　　'data' : {'base64Img' : base64Img},
+		// 　　    	  'success' : function(ret){
+		// 　　　　	             //拿到php传过来的图片地址
+		// 　　　　　   }
+		// 　　　　　});
+		　　　});
+		});
+
+		function compress(event, callback){
+		    var file = event.currentTarget.files[0];
+		    var reader = new FileReader();
+
+		    reader.onload = function (e) {
+
+		        var image = $('<img/>');
+		        image.on('load', function () {
+		             var square = 700;
+		             var canvas = document.createElement('canvas');
+
+		             canvas.width = square;
+		             canvas.height = square;
+
+		             var context = canvas.getContext('2d');
+		             context.clearRect(0, 0, square, square);
+		             var imageWidth;
+		             var imageHeight;
+		             var offsetX = 0;
+		             var offsetY = 0;
+
+		            if (this.width > this.height) {
+		                  imageWidth = Math.round(square * this.width / this.height);
+		                  imageHeight = square;
+		                 offsetX = - Math.round((imageWidth - square) / 2);
+		           } else {
+		                 imageHeight = Math.round(square * this.height / this.width);
+		                 imageWidth = square; 
+		                 offsetY = - Math.round((imageHeight - square) / 2); 
+		           }
+
+		            context.drawImage(this, offsetX, offsetY, imageWidth, imageHeight);
+		            var data = canvas.toDataURL('image/jpeg');
+		            callback(data);
+		         });
+
+		          image.attr('src', e.target.result);
+		       };
+		 
+		     reader.readAsDataURL(file);
+		}
+	</script>
+</body>
+</html>

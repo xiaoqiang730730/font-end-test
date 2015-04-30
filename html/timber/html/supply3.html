@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>供求</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css">
+    <style type="text/css">
+        header{
+            display:-webkit-box;
+            display:-webkit-flex;
+            display:flex;
+            width:100%;
+            height:50px;
+            background-color:#f00;
+            color:#fff;
+            text-align:center;
+            line-height:50px;
+        }
+        .select{
+            -webkit-box-flex:1;
+            -webkit-flex:1;
+            flex:1;
+            box-sizing: border-box;
+            color:#fff;
+            border-top:1px solid #fff;
+        }
+        .separate{
+            height:40px;
+            margin:auto;
+            width:1px;
+            background-color:#fff;
+        }
+        .leftSeparate{
+            position:relative;
+        }
+        .leftSeparate:after{
+            position:absolute;
+            content:"";
+            width:1px;
+            height:40px;
+            top:5px;
+            right:0;
+            background-color:#fff;
+        }
+        .leftSelectAce{
+            position:relative;
+        }
+        .leftSelectAce:before{
+            position:absolute;
+            content:"";
+            width:0;
+            height:0;
+            border:6px solid transparent;
+            border-top-color:#fff;
+            right:20%;
+            top:50%;
+        }
+        #main{
+            width:100%;
+            overflow:auto;
+        }
+        ul{
+            width:100%;
+        }
+        ul li{
+            border-bottom: 1px solid #e6e6e6; 
+            overflow: hidden; 
+        }
+        ul li.active{
+            background-color: #f2f2f2;
+            display:-webkit-box;
+            display:-weblit-flex;
+            display:flex;
+            -webkit-box-orient: vertical;
+        }
+        ul li span{ 
+            display:inline-block;
+            color:#fff;
+            padding:1%;
+            margin-right:2%;
+        }
+        ul li p{
+            -webkit-box:1;
+            -webkit-flex:1;
+            flex:1;
+            
+            white-space: nowrap; 
+            overflow: hidden; 
+            text-overflow: ellipsis;
+            color: #3b3b3b;
+        }
+        ul li p:nth-child(1){
+            padding:5% 2% 1% 5%;
+        }
+        ul li p:nth-child(2){
+            color:#999999;
+            padding:1% 2% 5% 5%;
+        }
+        .sale{
+            background-color:#60AFFF;
+        }
+        .buy{
+            background-color:#FF745E;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="select leftSelectAce leftSeparate">分类</div>
+        
+        <div id="select_zone" class="select leftSelectAce leftSeparate" onclick="openCityListWin()" tapmode>地区</div>
+        
+        <div class="select leftSelectAce">筛选</div>
+    </header>
+    <section id="main">
+        <ul id="infoList">
+            <script type="text/template" id="supplyInfoList">
+                {{for(var i=0,len=it.length; i<len;i++){ }}
+                    <li>
+                        <p><span class="{{=it[i].buyOrSaleClass}}">{{=it[i].buyOrSaleText}}</span>{{=it[i].title}}</p>
+                        <p>{{=it[i].subTitle}}</p>
+                    </li>
+                {{ } }}
+            </script>
+        </ul>
+    </section>
+    <script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="../script/doT.min.js"></script>
+    <script type="text/javascript" src="../script/common.js"></script>
+    <script type="text/javascript">
+        function openCityListWin(){
+            api.openWin({
+                name: 'supply_citySelect',
+                url: './supply_citySelect.html',
+                reload:true
+            });
+        }
+
+        function updateCity(city){
+            $("#select_zone").text(city);
+            
+        }
+
+        function mainHeight(){
+            var main=$("#main");
+            main.height($(window).height()-parseInt($("header").height()));
+        }
+
+        var list=[];
+        function lists(url){
+            mainHeight();
+            common.getData(url,function(result){
+                //console.log(result);
+                var data=result.data.data;
+                for (var i = 0; i < data.length; i++) {
+                    list.push({
+                        id:data[i].id,
+                        buyOrSaleClass:data[i].buy_or_sale==1?"sale":"buy",
+                        buyOrSaleText:data[i].buy_or_sale==1?"销售":"采购",
+                        title:data[i].title,
+                        subTitle:data[i].user.nickname+"|"+common.timeFormate(data[i].create_time)
+                    })
+                };
+                templateData(list);
+            });
+        }
+
+        function templateData(data){
+            var infoList=$("#infoList");
+            var teplate=$("#supplyInfoList").text();
+            var temp=doT.template(teplate);
+            infoList.html("");
+            infoList.html(temp(data));
+            //listClick();
+        }
+
+        //lists("/demand/getlist");
+
+        var listClick=function(){
+            var lis=$("#infoList li");
+            lis.each(function(index, el) {
+                $(el).bind('click',function(){
+                    api.openWin({
+                        name: 'supply_detail',
+                        pageParam:{supply_detail:list[index].id},
+                        url: './supply_detail.html'
+                    });
+                })  
+            });
+        }
+        var count=100;
+        function add(){
+            list.unshift({
+                id:++count,
+                buyOrSaleClass:count/2?"sale":"buy",
+                buyOrSaleText:count/2?"销售":"采购",
+                title:"effsdf",
+                subTitle:"heee"
+            });
+            console.log(list);
+            templateData(list);
+        }
+
+        apiready = function(){
+
+         //    var header=$api.offset($api.dom("header"));
+
+        	// var lvh = api.frameHeight;
+
+            lists("/demand/getlist");
+
+            api.setRefreshHeaderInfo({
+                    visible: true,
+                    bgColor: '#f2f2f2',
+                    textColor: '#4d4d4d',
+                    textDown: '下拉刷新...',
+                    textUp: '松开刷新...',
+                    showTime: true
+                }, function(ret, err) {
+                    lists("/demand/getlist?root=sale");
+                    api.refreshHeaderLoadDone();
+            });
+     //        api.openFrame({
+     //            name:'supply_infoList',
+     //            url:'./supply_infoList.html',
+     //            rect:{
+     //                x:0,
+     //                y:header.h,
+     //                w:"auto",
+     //                h:"auto"
+     //            },
+     //            bounces:true,
+     //            vScrollBarEnabled:true,
+     //            hScrollBarEnabled:false
+     //        });
+    	}
+    </script>
+</body>
+</html>

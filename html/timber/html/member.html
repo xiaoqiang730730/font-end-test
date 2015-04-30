@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="../css/api.css">
+    
+    <title>圈子</title>
+    <style type="text/css">
+		header{
+			width:100%;
+			height:14rem;
+			background:url("../image/advisory_content_01.png") no-repeat ;
+			background-size:cover;
+		}
+		header div{
+			font-size:0px;
+			text-align:center;
+		}
+		header img{
+			height:4rem;
+			margin-top:3rem;
+		}
+		header p{
+			color:#fff;
+			/*padding:2% 0;*/
+			font-size:16px;
+			height:3rem;
+			line-height:3rem;
+		}
+		.edit{
+			display:-webkit-box;
+			display:-webkit-flex;
+			display:flex;
+			
+			height:4rem;
+			line-height:4rem;
+		}
+		.edit div{
+			font-size:16px;
+			-webkit-box:1;
+			-webkit-flex:1;
+			flex:1;
+			background-color:rgba(215,216,217,0.91);
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-ms-box-sizing:border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+		}
+		.edit div:nth-child(1){
+			border-right:1px solid #B2B3B4;
+		}
+		.listInfo{
+			border-top:18px solid #EDEDED;
+			border-bottom:18px solid #EDEDED;
+		}
+		.listInfo div{
+			height:4rem;
+			line-height:4rem;
+			border-bottom:1px solid #B2B3B4;
+		}
+		.listInfo div p{
+			display:inline-block;
+			text-align:left;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-ms-box-sizing:border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+			padding-left:5%;
+			width:100%;
+			padding-right:7rem;
+		}
+		.tipNum{
+			margin-left:-7rem;
+			font-size:larger;
+			width:6rem;
+			height:4rem;
+			color:#FE3C3C;
+			position:absolute;
+			text-align:right;
+		}
+		.next{
+			margin-left:-1rem;
+			width:1rem;
+			height:4rem;
+			position:absolute;
+			font-family:'Glyphicons Halflings';
+		}
+		.next:before{
+			/*-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+			content:"";
+			width:0.8rem;
+			height:0.8rem;
+			background-color:transparent;
+			position:absolute;
+			left:50%;
+			top:50%;
+			margin-top:-0.4rem;
+			border:2px solid transparent;
+			border-right-color:#757575;
+			border-bottom-color:#757575;
+			-webkit-transform: rotate(-45deg);
+			-moz-transform: rotate(-45deg);
+			-ms-transform: rotate(-45deg);
+			-o-transform: rotate(-45deg);
+			transform: rotate(-45deg);*/
+			content:'\e258';
+			width:1rem;
+			height:4rem;
+			color:#757575;
+		}
+		.hidden{
+			display:none;
+		}
+		.more{
+			position:absolute;
+			top:10px;
+			right:4px;
+			width: 3rem;
+			height: 2rem;
+			padding-top:0.5rem;
+		}
+		.more span{
+			display:block;
+			width:5px; 
+			height:5px;
+			-webkit-border-radius:5px;
+			-moz-border-radius:5px;
+			-ms-border-radius:5px;
+			-o-border-radius:5px;
+			border-radius:5px;
+			background-color:#fff;
+			margin:0 auto;
+			margin-top:3px;
+
+		}
+		.moreList{
+			position:absolute;
+			right:10px;
+			top:-150px;
+			width:4rem;
+			list-style: none;
+			background-color:#fff;
+			padding:0px 15px 15px 15px;
+			-webkit-border-radius:5px;
+			-moz-border-radius:5px;
+			-ms-border-radius:5px;
+			-o-border-radius:5px;
+			border-radius:5px;
+		}
+		.moreList li{
+			width:100%;
+			margin-top:30%;
+		}
+    </style>
+</head>
+<body>
+<div id="memberCon"></div>
+</body>
+<script type="text/template" id="memberTem">
+   <header style="background-image:url({{=it.uImg}})">
+   		<div>
+   			<img src="{{=it.uImg}}" onclick="myImg()">	
+   			<p onclick="myNickName()">{{=it.uNickName}}</p>	
+   		</div>
+   		<div class="edit">
+   			<div onclick="myImg()">编辑头像</div>
+   			<div>基础信息</div>
+   		</div>
+   		<div id="more" class="more" onclick="moreList()">
+	   		<span></span>
+	   		<span></span>
+   			<span></span>
+   		</div>
+   		<ul class="moreList" id="moreList">
+   			<li>设置</li>
+   			<li>意见反馈</li>
+   			<li onclick="logout()">退出账号</li>
+   		</ul>
+   </header>
+   <section>
+   		<div class="listInfo">
+   			<div onclick="myContactName({{=it.uId}});"><p>联系人</p><span class="tipNum">1</span><span class="next"></span></div>
+   			<div onclick="mySupply({{=it.uId}});"><p>我的供求</p><span class="tipNum">{{=it.uSupplyNum}}</span><span class="next"></span></div>
+   			<div onclick="myDynamic({{=it.uId}});"><p>我的动态</p><span class="tipNum">{{=it.uDynamicNum}}</span><span class="next"></span></div>
+   			<div onclick="myEmail({{=it.uId}});"><p>修改邮箱</p><span class="tipNum">2</span><span class="next"></span></div>
+   			<div onclick="myPwd({{=it.uId}});"><p>修改密码</p><span class="tipNum">3</span><span class="next"></span></div>
+   			<div onclick="myProduct();"><p>修改产品</p><span class="tipNum">4</span><span class="next"></span></div>
+   			<div onclick="myIntroduce();"><p>企业介绍</p><span class="tipNum">5</span><span class="next"></span></div>
+   			<div><p>积分</p><span class="tipNum">215</span><span class="next hidden"></span></div>
+   		</div>
+   </section>
+</script>
+
+<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../script/doT.min.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+		function moreList(){
+			$("#moreList").animate({top: "2px"},"slow");
+		};
+
+		function logout(){
+			$("#moreList").animate({top: "-150px"});
+			common.getDataTest("/user/logout","",function(result){
+				if(!result.code){
+					api.toast({
+						msg:"注销成功！",
+						duration:2000,
+						location:"middle"
+					});
+					$api.rmStorage("uid")
+					api.execScript({
+						name:"root",
+						script:"timber.randomSwitchBtn(0)"
+					});
+				}else{
+					api.alert({
+						msg:"网络错误！"
+					});
+				}
+			})
+		}
+
+		function myImg(){
+			api.openWin({
+				name:"member_myImg",
+				url:"./member_myImg.html"
+			});
+		}
+		function myNickName(){
+			api.openWin({
+				name:"member_myNickName",
+				url:"./member_myNickName.html"
+			});
+		}
+		function myContactName(id){
+
+		}
+		function mySupply(id){
+
+			api.openWin({
+				name:"member_mySupply",
+				url:"./member_mySupply.html",
+				pageParam:{member_mySupply:id}
+			});
+
+		}
+		function myDynamic(id){
+			api.openWin({
+				name:"member_myDynamic",
+				url:"./member_myDynamic.html",
+				pageParam:{member_myDynamic:id}
+			})
+		}
+		function myEmail(id){
+			api.openWin({
+				name:"member_myEmail",
+				url:"./member_myEmail.html",
+				pageParam:{member_myEmail:id}
+			})
+		}
+		function myPwd(id){
+			api.openWin({
+				name:"member_myPwd",
+				url:"./member_myPwd.html",
+				pageParam:{member_myPwd:id}
+			})
+		}
+		function myProduct(id){
+			api.openWin({
+				name:"member_myProduct",
+				url:"./member_myProduct.html",
+			})
+		}
+		function myIntroduce(id){
+			api.openWin({
+				name:"member_myIntroduce",
+				url:"./member_myIntroduce.html",
+
+			})
+		}
+
+		function init(){
+
+			if($api.getStorage("uid")){
+				common.getLoginUserInfoTest(function(result){
+					common.templateData("#memberTem","#memberCon",result);
+				});
+			}
+		}
+		function test(){
+			common.getUserInfoById(75,function(t){common.templateData("#memberTem","#memberCon",t);})
+		}
+		apiready=function(){
+			init();
+		}
+</script>
+
+</html>

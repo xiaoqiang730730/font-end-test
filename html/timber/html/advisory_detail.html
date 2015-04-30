@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>advisory_detail</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<style type="text/css">
+		html,body{
+			height:100%;
+			width:100%;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-ms-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+
+		}
+		body{
+
+		}
+		footer{
+			position:absolute;
+			bottom:0;
+			left:0;
+			z-index:2;
+			width:100%;
+			height:50px;
+			line-height:50px;
+			text-align:center;
+			display:-webkit-box;
+			display:-webkit-flex;
+			display:flex;
+			background-color:rgba(255, 0, 0, 1);
+		}
+		.bottom{
+			flex:1;
+			-webkit-flex: 1;
+			-webkit-box-flex: 1;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-ms-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			box-sizing: border-box;
+			color:#fff;
+		}
+		.separate{
+			height:40px;
+			margin:auto;
+			width:1px;
+			background-color:#fff;
+		}
+		header h1{
+			font-size:6vw;
+			padding:10px 0px 0px 10px;
+		}
+		header h2{
+			font-size:3vw;
+			padding:5px 0px 0px 10px;
+			color:#ccc;
+		}
+		#main{
+			width:100%;
+			height:100%;
+			/*overflow:auto;*/
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-ms-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			box-sizing:border-box;
+		}
+		img{
+			width:100%;
+		}
+		:not(img){
+			padding:0px 1.5%;
+		};
+	</style>
+</head>
+<body>
+	<header>
+		<h1 id="acticle_name"></h1>
+		<h2 id="acticle_time"></h2>
+	</header>
+	<section id="main">
+		
+	</section>
+	
+
+	<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript">
+		var staticUrl="http://www.anywood.com/api.php";
+		function getData(relateUrl, func){
+			$.ajax({
+				url:staticUrl+relateUrl,
+				dataType: "jsonp",
+				async: true,
+				success: func,
+				error: function(o) {
+					return null;
+				}
+			});
+		}
+
+		function timeFormate(ns){
+			var date=new Date(ns*1000);
+			var nowDate=new Date();
+			
+			// 计算出小时
+			var minusTime=(nowDate-date)/(1000*60*60);
+			var format="y年m月d日";
+			
+			// 一天内
+			if(minusTime<24){
+				// 一个小时内
+				if(minusTime==0){
+					// 计算分钟
+					minusTime=minusTime*60;
+					return parseInt(minusTime)+"分钟前";
+				}else{
+					return parseInt(minusTime)+"小时前";
+				}
+			}else{
+				format=format.replace('y', date.getFullYear());
+		        format = format.replace('m', date.getMonth() + 1);
+		        format = format.replace('d', date.getDate());
+		        return format;
+			}
+		}
+		// getData("/news/detail?id=1984",function(result){
+		// 		var element=result.data;
+		// 		//alert(element);
+		// 		$("#acticle_name").text(element.title);
+		// 		$("#acticle_time").text(timeFormate(element.create_time));
+		// 		var mainString=element.parse_content;
+		// 		$("#main").height($(window).height()-$("header").height());
+		// 		$("#main").append(mainString);
+		// 	})
+		apiready=function () {
+			
+			getData("/news/detail?id="+api.pageParam.id+"",function(result){
+				var element=result.data;
+				//alert(element);
+				$("#acticle_name").text(element.title);
+				$("#acticle_time").text(timeFormate(element.create_time));
+				var mainString=element.parse_content;
+				$("#main").height($(window).height()-$("header").height());
+				$("#main").append(mainString);
+			});
+
+			api.openFrame({
+			            name: 'advisory_return.html',
+			            url: './advisory_return.html',
+			            bounces: false,
+			            rect: {
+			                x: 0,
+			                y: api.winHeight-50,
+			                w: 'auto',
+			                h: 50
+			       }
+			});
+			
+		}
+	</script>
+</body>
+</html>

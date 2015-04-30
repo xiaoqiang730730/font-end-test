@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<title>advisory</title>
+	<link rel="stylesheet" type="text/css" href="../css/api.css">
+	<style type="text/css">
+		#nav{
+			width:100%;
+			height:3rem;
+			line-height:3rem;
+			color:#ccc;
+			background-color:#fe4444;
+		}
+		.nav_list{
+			-webkit-box-sizing:border-box;
+			-mos-box-sizing:bordre-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+			padding-left:10%;
+			width:60rem;
+			overflow-x:auto;
+			font-size:0px;
+			background-color:#fe4444;
+		}
+		.nav_li{
+		    color:rgba(255, 255, 255, 0.87);
+		    text-align:center;
+			display:inline-block;
+			font-size:1rem;
+		    width:6rem;
+		}
+		.active{
+			color:white;
+			position:relative;
+		}
+		.active:after{
+			position:absolute;
+			left:0;
+			bottom:5px;
+			content:"";
+			width:100%;
+			height:0;
+			border:0px;
+			border-bottom:3px solid white;
+		}
+	</style>
+</head>
+
+<body>
+	<div id="nav">
+		<script type="text/template" id="advisoryTem">
+			<li class="nav_li active" tapmode="" onclick="navListClick.call(this,'all')">全部</li>
+			{{ for(var i=0;i<it.length;i++){ }}	   
+			   <li class="nav_li" tapmode="" onclick="navListClick.call(this,{{=it[i].categoryId}})">{{=it[i].categoryTitle}}</li>
+			{{ } }}
+		</script>
+		<ul class="nav_list" id="advsoryCon">
+			<!-- <li class="nav_li active">e</li>
+			<li class="nav_li">d</li>
+			<li class="nav_li">d</li>
+			<li class="nav_li">d</li> -->
+		</ul>
+	</div>
+
+	<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="../script/doT.min.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		
+		function navListClick(id){
+			$(this).addClass('active');
+			var navLis=$(this).siblings();
+			navLis.each(function(index, el) {
+				$(el).removeClass('active');
+			});
+			api.execScript({
+				name:"root",
+				frameName:"advisory_infoList",
+				script:'advisoryChange("'+id+'");'
+			});
+		}
+
+		function advisoryInit(){
+			common.getData("/news/getallcategory","", function (result) {
+				//console.log(result);
+				var data=result.data;
+				var titles=[];
+				for(var i in data){
+						titles.push({
+						categoryId:data[i].id,
+						categoryTitle:data[i].title
+					});
+				}
+				// var titleString="<li class='nav_li active'>"+titles.join("</li><li class='nav_li'>")+"</li>";
+				// $("#nav .nav_list").append(titleString);
+				// model.navListClick();
+				$("#advsoryCon").css("width",titles.length*8+"rem");
+				common.templateData("#advisoryTem","#advsoryCon",titles);
+				
+			});
+		}
+		
+		//advisoryInit();
+
+		function showAdvisoryInfoList(){
+			api.setFrameAttr({
+				name: "advisory_infoList",
+				hidden: false
+			});
+        }
+
+        function hiddenAdvisoryInfoList(){
+			api.setFrameAttr({
+				name: "advisory_infoList",
+				hidden: true
+			});
+        }
+
+        function openAdvisoryListFrame(){
+    		api.openFrame({
+    		    name:'advisory_infoList',
+    		    url:'./advisory_infoList.html',
+    		    rect:{
+    		        x:0,
+    		        y:parseInt($("#nav").height())*2,//默认设置一样高
+    		        w:api.frameWidth,
+    		        h:api.frameHeight-parseInt($("#nav").height())
+    		    },
+    		    bounces:true,
+    		    vScrollBarEnabled:true,
+    		    hScrollBarEnabled:false
+    		});
+    		hiddenAdvisoryInfoList();
+        }
+	    apiready = function(){
+
+	    	advisoryInit();
+
+	    	api.openFrame({
+    		    name:'advisory_infoList',
+    		    url:'./advisory_infoList.html',
+    		    rect:{
+    		        x:0,
+    		        y:parseInt($("#nav").height())*2,//默认设置一样高
+    		        w:api.frameWidth,
+    		        h:api.frameHeight-parseInt($("#nav").height())
+    		    },
+    		    bounces:true,
+    		    vScrollBarEnabled:true,
+    		    hScrollBarEnabled:false
+    		});
+    		hiddenAdvisoryInfoList();
+	    }
+	    	// var nav=$api.offset("#nav").h;
+	    	// var listview2 = api.require('listView');
+	    	// var lvh = api.frameHeight;
+	    	// model.getData("/news/pos?category=news&pos=2&limit=10",function(result){
+	    	// 	var data=result.data;
+	    	// 	var dataFormate=[];
+	    	// 	for (var i = 0; i < data.length; i++) {
+	    	// 		dataFormate.push({
+	    	// 			titleColor: '#000000',
+	    	// 			subTitleColor: '#999999',
+	    	// 			title:data[i].title,
+	    	// 			subTitle:model.timeFormate(data[i].create_time)
+	    	// 		});
+	    	// 	};
+	    	// 	listview2.open({
+	    	// 		y: 50,
+	    	// 	    h: lvh-50,
+	    	// 	    leftBtn: [{color:'#b2b2b2', title:'取消收藏'}],
+	    	// 	    rightBtn: [{color:'#90b600', title:'收藏'}],
+	    	// 	    borderColor: '#ccc',
+	    	// 	    cellBgColor: '#fafafa',
+	    	// 	    cellHeight:50,
+	    	// 	    fixedOn: 'advisory',
+	    	// 	    data:dataFormate
+	    	// 	},function(ret,err){
+	    	// 		// alert(ret.index);
+	    	// 		// alert(data[ret.index].id);
+	    	// 		api.openWin({
+	    	// 		    name: 'advisory_detail',
+	    	// 		    pageParam:{id:data[ret.index].id},
+	    	// 		    url: './advisory_detail.html'
+	    	// 		});
+
+	    	// 	    // api.alert({msg:ret.index});
+	    	// 	});
+	    	// });
+			
+		</script>
+</body>
+</html>

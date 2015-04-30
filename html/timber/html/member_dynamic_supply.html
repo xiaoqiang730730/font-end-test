@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>member_dynamic_supply</title>
+	<meta  name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<style type="text/css">
+		i{
+			color:#FF4545;
+			font-style: normal;
+		}
+		header{
+			font-size: 0px;
+		}
+		header span{
+			height:3rem;
+			line-height:3rem;
+			font-size:16px;
+			text-align:center;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+			vertical-align:top;
+		}
+		.left{
+			width:64%;
+			text-align:left;
+			padding-left:1rem;
+			background:#EDEDED;
+		}
+		.right{
+			width:12%;
+			background:#EDEDED;
+		}
+		.active{
+			color:#FF4545;
+		}
+		li{
+			width:90%;
+			margin:0px 5% 0px 5%;
+			display:-webkit-box;
+			display:-webkit-flex;
+			display:flex;
+		}
+		li p {
+			-webkit-box-flex:1;
+			-webkit-flex:1;
+			flex:1;
+			padding:1rem 0 1rem 0;
+			border-bottom:1px solid #999999;
+
+			white-space: nowrap; 
+			overflow: hidden; 
+			text-overflow: ellipsis;
+		}
+		li p span {
+			margin-right:0.5rem;
+			color:#fff;
+		}
+		.time{
+			width:6rem;
+			padding:1rem 0 1rem 0;
+			text-align:right;
+			border-bottom:1px solid #999999;
+		}
+		.sale{
+			background-color:#60AFFF;
+		}
+		.buy{
+			background-color:#FF745E;
+		}
+		.noresult-p{
+			text-align:center;
+		}
+		
+	</style>
+</head>
+<body>
+	<header>
+		<span class="left">共有<i id="num">0</i>个供求</span>
+		<span class="right active" tapmode="" >全部</span>
+		<span class="right" >销售</span>
+		<span class="right" >采购</span>
+	</header>
+	<script type="text/template" id="memberSupplyTem">
+		{{ if(it.length==0){ }}
+			<p class="noresult-p"><img src="../image/noresult.png"/></p>
+		{{ }else{ }}
+			{{for(var i=0;i<it.length;i++){ }}
+				<li>
+					<p onclick="openSupplyDetail({{=it[i].id}})"><span class="{{=it[i].buyOrSaleClass}}">{{=it[i].buyOrSaleText}}</span>{{=it[i].title}}</p><span class='time'>{{=it[i].time}}</span>
+				</li>
+			{{ } }}
+		{{ } }}
+	</script>
+
+	<ul id="memberSupplyCon">
+		<!-- <li>
+			<p><span class="buy">你好</span>啊是的那视频的那是破电脑破事</p><span class="time">time</span>
+		</li>
+		<li>
+			<p><span class="buy">你好</span>啊是的那视频的那是破电脑破事</p><span class="time">time</span>
+		</li>
+		<li>
+			<p><span class="buy">你好</span>啊是的那视频的那是破电脑破事</p><span class="time">time</span>
+		</li> -->
+	</ul>
+	<script type="text/javascript" src="../script/doT.min.js"></script>
+	<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	<script type="text/javascript">
+
+		var dynaSupplyLists=[];
+		// 全局页数
+		var staticPage;
+		var param={
+			p:1,
+			root:"all"
+		};
+
+		// 第一次加载数据
+		var init=true;
+
+		function resetPage(){
+			init=true;
+			p=1;
+			dynaSupplyLists=[];
+		}
+
+		function clickActive(){
+			$(this).addClass('active');
+			var divs=$(this).siblings();
+			divs.each(function(index, el) {
+				$(el).removeClass('active');
+			});
+		}
+
+		function dynaSupply(){
+			var rights=$(".right");
+			
+			rights.each(function(index, el) {
+				$(el).click(function(event) {
+					/* Act on the event */
+					resetPage();
+					clickActive.call(this);
+					switch(index){
+						case 0:
+							param.root="all";
+							memberSupplyLists(api.pageParam.member_dynamic_supply);
+						    break;
+						case 1:
+							param.root="sale";
+							memberSupplyLists(api.pageParam.member_dynamic_supply);
+					        break;
+					    case 2:
+					    	param.root="buy";
+					    	memberSupplyLists(api.pageParam.member_dynamic_supply);
+					    	break;	
+					}
+				});
+			});
+		}
+		dynaSupply();
+
+		function changePage(){
+			if(param.p>staticPage){
+				return;
+			}else{
+				param.p=param.p+1;
+			}
+		}
+
+		function memberSupplyLists(id){
+			api.showProgress({
+				text:"加载中",
+				modal:false
+			});
+			common.getUserSupplyById(id,param,function(result){
+				api.hideProgress();
+				
+				if(result.total>0){
+					staticPage=result.pageNum;
+					$("#num").text(result.total);
+					dynaSupplyLists.push.apply(dynaSupplyLists,result.lists);
+					common.templateData("#memberSupplyTem","#memberSupplyCon",dynaSupplyLists);
+				}else{
+					$("#num").text(result.total);
+					common.templateData("#memberSupplyTem","#memberSupplyCon",dynaSupplyLists);
+				}
+			});
+		}
+
+		function openSupplyDetail(id){
+			api.openWin({
+				name:"supply_detail",
+				url:"./supply_detail.html",
+				pageParam:{supply_detail:id}
+			});
+		}
+
+		apiready=function(){
+			memberSupplyLists(api.pageParam.member_dynamic_supply);
+			// 下拉刷新
+			api.setRefreshHeaderInfo({
+                    visible: true,
+                    bgColor: '#f2f2f2',
+                    textColor: '#4d4d4d',
+                    textDown: '下拉刷新...',
+                    textUp: '松开刷新...',
+                    showTime: true
+                }, function(ret, err) {
+	                memberSupplyLists(api.pageParam.member_dynamic_supply);
+                    api.refreshHeaderLoadDone();
+            });
+
+            // 拉到最下面更新数据
+		    api.addEventListener({
+			    name: 'scrolltobottom'
+			}, function(ret, err){
+				changePage();
+			    memberSupplyLists(api.pageParam.member_dynamic_supply);
+			});
+		}
+	</script>
+</body> 
+</html>

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>home</title>
+    <style type="text/css">
+    		*{
+    			margin: 0;
+    			border: 0;
+    			padding: 0;
+    		}
+    		html, body {
+    		    height: 100%;
+    		    width: 100%;
+
+    		}
+    		#con{
+    			margin:10px;
+    			font-size: 28px; 
+    		}
+    		ul{
+    			display:-webkit-box;
+    			-webkit-box-orient: vertical;
+    			margin-bottom:10px;
+    		}
+    		.txt{ 
+    			margin:5px 10px;
+    			padding:5px;
+    			/**background-color:#3B424C;**/
+    			color:#000;
+    			word-wrap: break-word;
+    		}
+    	    /*div{
+    	    	width: 100%;
+    	    	height: 300px;
+    	    }
+    	    #abbr_advertise{
+    			background: black;
+    	    }
+    	    #abbr_advisory{
+    			background: green;
+    	    }
+    	    #abbr_supply{
+    			background: black;
+    	    }
+    	    #abbr_member{
+    			background: blue;
+    	    }*/
+    </style>
+</head>
+<body>
+	<!-- <div id="abbr_advertise">
+	    
+	</div>
+	<div id="abbr_advisory">
+	    
+	</div>
+	<div id="abbr_supply">
+	    
+	</div>
+	<div id="abbr_member">
+	    
+	</div> -->
+	<script type="text/javascript" src="../script/jquery-1.8.3.js"></script>
+	<script type="text/javascript" src="../script/api.js"></script>
+	
+	<script type="text/javascript">
+		 apiready = function(){
+				var sp = api.require('scrollPicture');
+				var pathArr = [
+					'widget://image/sp1.png',
+					'widget://image/sp2.png',
+					'widget://image/sp3.png'
+				];
+				var titleArr = [
+					'中国女排队长惠若琪美艳写真',
+					'德国女足为梅西蜡像揭幕',
+					'除了坦克就没谁了:看最强越野车'
+				];
+
+				var sp_h=api.frameWidth*0.497;
+				sp.open({
+					y: 0,
+					width: api.frameWidth,
+					height: sp_h,
+					intervalTime: 3,
+				    placeHoldImg: 'widget://image/sp1.png',
+				    paths: pathArr,
+				    subtitle: {
+				    	titles: titleArr,
+				    	bgColor: '#ababab',
+				    	color:'#fff',
+				    	height:24
+				    },
+				    control: {
+				    	position:2,//页面控制器位置，0-中间；1-左边；2-右边，默认0
+				    	// alignment:right,
+				    	activeColor : '#90b600',
+				    	inactiveColor: '#fff'
+				    },
+				    fixedOn: 'home'
+				},function(ret,err){
+				    if(ret.status){
+				        // ret.click;
+				    }else{
+				        // ret.index;
+				    }
+				});
+
+
+				var listview1 = api.require('listView');
+				listview1.open({
+					y: sp_h+10,
+				    h: sp_h,
+				    leftBtn: [{color:'#b2b2b2', title:'取消收藏'}],
+				    rightBtn: [{color:'#90b600', title:'收藏'}],
+				    borderColor: '#e6e6e6',
+				    cellBgColor: '#fafafa',
+				    cellHeight: 80,
+				    fixedOn: 'home',
+				    data: [{
+				    		placeHoldImg: 'widget://image/news.png',
+				    		img: 'widget://image/news.png',
+				    		titleColor: '#000000',
+				    		subTitleColor: '#999999',
+				    		title: 'APICloud国际战略初现',
+				    		subTitle: '据国外媒体报道,移动应用云服务商APICloud正式在美国发布...'
+				    	},
+				        {
+				        	placeHoldImg: 'widget://image/news.png',
+				        	titleColor: '#000000',
+				    		subTitleColor: '#999999',
+				        	title: '用互联网思维做移动应用开发平台',
+				        	subTitle: '“云端一体”移动应用云服务平台APICloud于今年9月15日...'
+				        },
+				        {
+				        	placeHoldImg: 'widget://image/news.png',
+				        	titleColor: '#000000',
+				    		subTitleColor: '#999999',
+				        	title: 'APICloud:再说Web App和 Native App',
+				        	subTitle: '作者APICloud刘鑫之前文章《HTML5定稿了?背后还是那场闹剧》...'
+				        },
+				        {
+				        	placeHoldImg: 'widget://image/news.png',
+				        	titleColor: '#000000',
+				    		subTitleColor: '#999999',
+				        	title: 'APICloud携手美洽 为开发者助力',
+				        	subTitle: 'MeChat美洽智能手机客服平台已登录APICloud移动应用云服务平台...'
+				        }]
+				},function(ret,err){
+					api.openWin({
+					    name: 'win_hot_header',
+					    url: './win_hot_header.html'
+					});
+
+				    // api.alert({msg:ret.index});
+				});
+
+				var listview2 = api.require('listView');
+				listview2.open({
+					y: sp_h*2+20,
+				    h: sp_h,
+				    leftBtn: [{color:'#b2b2b2', title:'取消收藏'}],
+				    rightBtn: [{color:'#90b600', title:'收藏'}],
+				    borderColor: '#e6e6e6',
+				    cellBgColor: '#fafafa',
+				    cellHeight: 80,
+				    fixedOn: 'home',
+				    data: [
+				        {
+				        	placeHoldImg: 'widget://image/news.png',
+				        	titleColor: '#000000',
+				    		subTitleColor: '#999999',
+				        	title: '用互联网思维做移动应用开发平台',
+				        	subTitle: '“云端一体”移动应用云服务平台APICloud于今年9月15日...'
+				        },
+				        {
+				        	placeHoldImg: 'widget://image/news.png',
+				        	titleColor: '#000000',
+				    		subTitleColor: '#999999',
+				        	title: 'APICloud:再说Web App和 Native App',
+				        	subTitle: '作者APICloud刘鑫之前文章《HTML5定稿了?背后还是那场闹剧》...'
+				        },
+				        {
+				        	placeHoldImg: 'widget://image/news.png',
+				        	titleColor: '#000000',
+				    		subTitleColor: '#999999',
+				        	title: 'APICloud携手美洽 为开发者助力',
+				        	subTitle: 'MeChat美洽智能手机客服平台已登录APICloud移动应用云服务平台...'
+				        },
+				        {
+				        	placeHoldImg:'widget://image/news.png',
+				        	titleColor: '#000000',
+				    		subTitleColor: '#999999',
+				        	title: '高通BSR基于APICloud打造HER移动健康',
+				        	subTitle: 'HER移动健康计划中的“美丽管家”这个应用是基于中国首个“云端一体”的移动应用云服务提供商APICloud开发...'
+				        }]
+				},function(ret,err){
+					api.openWin({
+					    name: 'win_hot_header',
+					    url: './win_hot_header.html'
+					});
+
+				    // api.alert({msg:ret.index});
+				});
+
+				// var listview3 = api.require('listView');
+				// listview3.open({
+				// 	y: sp_h*3+30,
+				//     h: sp_h,
+				//     leftBtn: [{color:'#b2b2b2', title:'取消收藏'}],
+				//     rightBtn: [{color:'#90b600', title:'收藏'}],
+				//     borderColor: '#e6e6e6',
+				//     cellBgColor: '#fafafa',
+				//     cellHeight: 80,
+				//     fixedOn: 'home',
+				//     data: [
+				//         {
+				//         	placeHoldImg: 'widget://image/news.png',
+				//         	titleColor: '#000000',
+				//     		subTitleColor: '#999999',
+				//         	title: 'APICloud:再说Web App和 Native App',
+				//         	subTitle: '作者APICloud刘鑫之前文章《HTML5定稿了?背后还是那场闹剧》...'
+				//         },
+				//         {
+				//         	placeHoldImg: 'widget://image/news.png',
+				//         	titleColor: '#000000',
+				//     		subTitleColor: '#999999',
+				//         	title: 'APICloud携手美洽 为开发者助力',
+				//         	subTitle: 'MeChat美洽智能手机客服平台已登录APICloud移动应用云服务平台...'
+				//         },
+				//         {
+				//         	placeHoldImg:'widget://image/news.png',
+				//         	titleColor: '#000000',
+				//     		subTitleColor: '#999999',
+				//         	title: '高通BSR基于APICloud打造HER移动健康',
+				//         	subTitle: 'HER移动健康计划中的“美丽管家”这个应用是基于中国首个“云端一体”的移动应用云服务提供商APICloud开发...'
+				//         },
+				//         {
+				//         	placeHoldImg: 'widget://image/news.png',
+				//         	titleColor: '#000000',
+				//     		subTitleColor: '#999999',
+				//         	title: '移动应用一站式云服务平台 APICloud 获得北极光领投 500 万美元融资',
+				//         	subTitle: 'APICloud 在近期完成了由北极光创投领投的 500 万美元融资...'
+				//         }]
+				// },function(ret,err){
+				// 	api.openWin({
+				// 	    name: 'win_hot_header',
+				// 	    url: './win_hot_header.html'
+				// 	});
+
+				//     // api.alert({msg:ret.index});
+				// });
+
+				// var listview4 = api.require('listView');
+				// listview4.open({
+				// 	y: sp_h*4+40,
+				//     h: sp_h,
+				//     leftBtn: [{color:'#b2b2b2', title:'取消收藏'}],
+				//     rightBtn: [{color:'#90b600', title:'收藏'}],
+				//     borderColor: '#e6e6e6',
+				//     cellBgColor: '#fafafa',
+				//     cellHeight: 80,
+				//     fixedOn: 'home',
+				//     data: [
+				//         {
+				//         	placeHoldImg: 'widget://image/news.png',
+				//         	titleColor: '#000000',
+				//     		subTitleColor: '#999999',
+				//         	title: 'APICloud携手美洽 为开发者助力',
+				//         	subTitle: 'MeChat美洽智能手机客服平台已登录APICloud移动应用云服务平台...'
+				//         },
+				//         {
+				//         	placeHoldImg:'widget://image/news.png',
+				//         	titleColor: '#000000',
+				//     		subTitleColor: '#999999',
+				//         	title: '高通BSR基于APICloud打造HER移动健康',
+				//         	subTitle: 'HER移动健康计划中的“美丽管家”这个应用是基于中国首个“云端一体”的移动应用云服务提供商APICloud开发...'
+				//         },
+				//         {
+				//         	placeHoldImg: 'widget://image/news.png',
+				//         	titleColor: '#000000',
+				//     		subTitleColor: '#999999',
+				//         	title: '移动应用一站式云服务平台 APICloud 获得北极光领投 500 万美元融资',
+				//         	subTitle: 'APICloud 在近期完成了由北极光创投领投的 500 万美元融资...'
+				//         },
+				//         {
+				//         	placeHoldImg: 'widget://image/news.png',
+				//         	titleColor: '#000000',
+				//     		subTitleColor: '#999999',
+				//         	title: '开发移动应用真能像拼积木一样简单?试试APICloud',
+				//         	subTitle: '在“端开发”这一块,APICloud将其分为端设置、证书、代码、模块和云编译五个部分...'
+				//         }]
+				// },function(ret,err){
+				// 	api.openWin({
+				// 	    name: 'win_hot_header',
+				// 	    url: './win_hot_header.html'
+				// 	});
+
+				//     // api.alert({msg:ret.index});
+				// });
+
+		    };
+	</script>
+</body>
+</html>

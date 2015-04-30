@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>circle_class</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>supply_class</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css">
+    <style type="text/css">
+    	html,body{
+    		width:100%;
+    		height:100%;
+    		background-color: transparent !important;
+    	}
+    	#circle_classCon{
+    		width:100%;
+    		height:80%;
+    		background-color:#fff;
+    	}
+    	#circle_leftzone{
+    		height:20%;
+    		width:100%;
+    		background-color:transparent;
+    	}
+		.list-left{
+			display:inline-block;
+			width:30%;
+			height:auto;
+		}
+		.list-left a{
+			display:block;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-ms-box-sizing:border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+			width:100%;
+			height:3rem;
+			line-height:3rem;
+			text-align:left;
+			padding-left:15%;
+		}
+		.list-left a:hover{
+			color:#FF4545;
+		}
+
+		.list-right{
+			display:inline-block;
+			width:70%;
+			height:100%;
+			overflow:hidden;
+			vertical-align:top;
+		}
+		.list-right div{
+			width:100%;
+			height:100%;
+			overflow:auto;
+			border:1px solid #ccc;
+		}
+		
+		h2{
+			font-size:16px;
+			height:3rem;
+			line-height:3rem;
+			padding-left:7%;
+			font-weight: normal;
+		}
+		li{
+			height:3rem;
+			line-height:3rem;
+			text-align:left;
+			padding-left:7%;
+		}
+		.off{
+			display:none;
+		}
+		.clicked{
+			color:#FF4545;
+		}
+		.selected{
+			background-color:#EEEEEE;
+		}
+		.down{
+			position:relative;
+		}
+		.down:after{
+			content:"";
+			width:8px;
+			height:8px;
+			background-color:transparent;
+			position:absolute;
+			right:10%;
+			top:50%;
+			margin-top:-7px;
+			border:2px solid transparent;
+			border-right-color:#707070;
+			border-bottom-color:#707070;
+			-webkit-transform: rotate(45deg);
+			-moz-transform: rotate(45deg);
+			-ms-transform: rotate(45deg);
+			-o-transform: rotate(45deg);
+			transform: rotate(45deg);
+		}
+		.up{
+			position:relative;
+		}
+		.up:after{
+			content:"";
+			width:8px;
+			height:8px;
+			background-color:transparent;
+			position:absolute;
+			right:10%;
+			top:50%;
+			margin-top:-4px;
+			border:2px solid transparent;
+			border-right-color:#FF4545;
+			border-top-color:#FF4545;
+			-webkit-transform: rotate(-45deg);
+			-moz-transform: rotate(-45deg);
+			-ms-transform: rotate(-45deg);
+			-o-transform: rotate(-45deg);
+			transform: rotate(-45deg);
+		}
+    </style>
+</head>
+<body>
+
+	<script type="text/template" id="circle_classTem">
+		<div class="list-left">
+			<a href="#" onclick="noLimit.call(this)">不限</a>
+			{{ for (var i in it){ }}
+				{{if(i==0){ }}
+					<a href="#{{=it[i].id}}" data="{{=it[i].id}}" onclick="aClick.call(this)" class="clicked">{{=it[i].title}}</a>
+				{{ }else{ }}
+					<a href="#{{=it[i].id}}" data="{{=it[i].id}}" onclick="aClick.call(this)">{{=it[i].title}}</a>
+				{{ } }}
+			{{ } }}
+		</div>
+		<div class="list-right">
+			{{ for(var i in it){ }}
+				<div id="{{=it[i].id}}">
+					<h2 data="{{=it[i].id}}" onclick="noLimit.call(this,{{=it[i].id}})">不限</h2>
+					<ul class="off"></ul>
+					{{    for (var j in it[i].groups){  }}
+							
+								<h2 class="down" data="{{=it[i].id}},{{=it[i].groups[j][0]}}" onclick="hClick.call(this)">{{=it[i].groups[j][1]}}</h2>
+
+								<ul class="off selected">
+									<li data="{{=it[i].id}},{{=it[i].groups[j][0]}}" onclick="noLimit.call(this,{{=it[i].id}},{{=it[i].groups[j][0]}})">不限</li>
+									{{ for(var k=0;k<it[i].groups[j][2].length;k++){ }}
+											<li onclick="supplyClassChange.call(this,'{{=it[i].id}}','{{=it[i].groups[j][0]}}','{{=it[i].groups[j][2][k]}}')">{{=it[i].groups[j][2][k]}}</li>
+									{{ } }}
+								</ul>
+							
+					{{   } }}
+				</div>
+			{{ } }}
+		</div>
+	</script>
+	<div id="circle_classCon">
+		
+	</div>
+	<div id="circle_leftzone" onclick="circle_leftzoneClick()">
+		
+	</div>
+	<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="../script/doT.min.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		var classInfoList=[];
+		
+		var classData;
+
+		var datas;
+		function classInfo () {
+			common.getData("/demand/getallcategory","",function(result){
+				var data=result.data;
+				console.log(data);
+				classData=data;
+
+				var class_first={};
+
+				for(var i=0;i<data.length;i++){
+					var class_second={};
+					for (var j = 0; j < data[i].groups.length; j++) {
+						class_second[data[i].groups[j][1]]=[];
+					};
+					class_first[data[i].title]=class_second;
+				};
+
+				datas=class_first;
+				// console.log(class_first);
+			});
+		}
+		
+		function listInfo(data){
+			for (var i = 0; i < data.length; i++) {
+				for (var j= 0; j<data[i].groups.length; j++) {
+					var firstElm=data[i]["title"];
+					var secondElm=data[i].groups[j][1];
+					var firserI=i;
+					var secondJ=j;
+					var id=data[i].id;
+					var groupId=data[i].groups[j][0];
+					setTimeout(function(parame1,parame2){
+						common.getData("/demand/gettags",parame1,function(result2){
+							var groupList=[];
+							for(var k=0;k<result2.data.length;k++){
+								groupList.push(result2.data[k].name);
+								// datas[parame2.firstElm][parame2.secondElm].push(result2.data[k].name);
+								
+							}
+							data[parame2.firstElm].groups[parame2.secondElm].push(groupList);
+						});
+					},0,{category:id,group:groupId},{firstElm:firserI,secondElm:secondJ});
+				};
+			};
+		}
+
+		function doData(){
+			if(classData!=undefined){
+				listInfo(classData);			
+			}else{
+				setTimeout(doData,1000);
+			}
+		}
+		
+		
+
+		function dataToView(){
+			if(classData!=undefined){
+				var i=classData.length-1;
+				var j=classData[i].groups.length-1;
+				if(classData[i].groups[j].length==3){
+					common.templateData("#circle_classTem","#circle_classCon",classData);
+				}else{
+					setTimeout(dataToView,1000);
+				}
+			}else{
+					setTimeout(dataToView,1000);
+			}
+		}
+
+		
+		function supplyClassStorage(){
+			if(classData!=undefined){
+				var i=classData.length-1;
+				var j=classData[i].groups.length-1;
+				if(classData[i].groups[j].length==3){
+					$api.setStorage("supplyClass",classData);
+					common.templateData("#circle_classTem","#circle_classCon",classData);
+				}else{
+					setTimeout(supplyClassStorage,1000);
+				}
+			}else{
+					setTimeout(supplyClassStorage,1000);
+			}
+		}
+		
+		function aClick(e){
+			e=window.event||e;
+			$(".list-right").show();
+			$(this).attr("class","clicked");
+			var as=$(this).siblings();
+			as.each(function(index,el){
+				$(el).attr("class","");
+			});
+			var relateId=$(e.target).attr("href");
+			$(relateId).find('h2').each(function(index, el) {
+				$(el).removeClass('clicked').removeClass('selected').removeClass('up').addClass('down');
+				$(el).next().addClass('off');
+			});
+		}
+
+		function hClick(){
+			if ($(this).hasClass('selected')) {// 关闭
+				$(this).attr("class","down");
+				$(this).next().children().each(function(index, el) {
+					$(el).removeClass('clicked');	
+				});
+				$(this).next().attr("class","off");
+			} else { //展开
+				$(this).attr("class","up selected clicked");
+				$(this).next().attr("class","selected");
+			}
+			var hs=$(this).siblings('h2');
+			hs.each(function(index,el){
+				//console.log(index,hs[index]);
+				$(el).removeClass('clicked');
+				if(index){//除去第一个
+					$(el).attr("class","down");
+					$(this).next().children().each(function(index, el) {
+					$(el).removeClass('clicked');	
+				});
+					$(el).next().attr("class","off");
+				};
+			})
+		}
+
+		// 不限
+		function noLimit(firstId,secondId){
+			$(this).addClass('clicked');
+			if(firstId){
+				if(secondId){
+					$(this).siblings().each(function(index, el) {
+
+						$(el).removeClass('clicked');
+					});
+					supplyClassChange(firstId,secondId,"");
+					// common.getData("/demand/getlist",{category:firstId,group:secondId},function(result){
+					// 	console.log(result);
+					// });
+				}
+				else{
+					$(this).siblings("h2").each(function(index, el) {
+
+						$(el).removeClass('clicked').removeClass('selected');
+						if($(el).hasClass('up')){
+							$(el).removeClass('up').addClass('down');
+						}
+						$(el).next().addClass('off');
+					});
+					supplyClassChange(firstId,"","");
+					// common.getData("/demand/getlist",{category:firstId},function(result){
+					// 	console.log(result);
+					// });
+				}
+			}else{
+				var as=$(this).siblings();
+				as.each(function(index,el){
+					$(el).attr("class","");
+				});
+				$(".list-right").hide();
+				supplyClassChange("demand","","");
+				// common.getData("/demand/getlist","",function(result){
+				// 		console.log(result);
+				// 	});
+			}
+		}
+
+
+		function loadData(){
+			if($api.getStorage("supplyClass")){
+				common.templateData("#circle_classTem","#circle_classCon",$api.getStorage("supplyClass"));
+			}else{
+				setTimeout(classInfo,1000);
+				doData();
+				setTimeout(supplyClassStorage,3000);
+			}
+		}
+		loadData();
+
+        function supplyClassChange(firstId,secondId,thirdS){
+        	$(this).addClass('clicked');
+        	$(this).siblings().each(function(index, el) {
+        		$(el).removeClass('clicked');
+        	});
+            api.execScript({
+                frameName:'supply_infoList',
+                script: "supplyListReloadByClass('"+firstId+"','"+secondId+"','"+thirdS+"');"
+            });
+        }
+		
+		function circle_leftzoneClick(){
+			api.execScript({
+            	name:"root",
+            	frameName:"supply",
+            	script:"hiddenSupplyClassFrame()"
+            });
+		}
+	</script>
+</body>
+</html>

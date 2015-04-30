@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta  name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<title>member_dynamic</title>
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<style type="text/css">
+		header{
+			background:#FF4545;
+			
+		}
+		#memberDynamic-header{
+			height:4.5rem;
+			width:100%;
+			display:-webkit-box;
+			display:box;
+			display:-webkit-flex;
+			display:flex;
+			
+			padding-right:1rem;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing:border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+		}
+		#memberDynamic-header p{
+			color:#fff;
+			-webkit-box-flex:1;
+			-webkit-flex: 1;
+			flex:1;
+			display:-webkit-box;
+			display:-webkit-flex;
+			display:flex;
+			align-items: center;
+			justify-content: center;
+		}
+		#memberDynamic-nav{
+			height:3.5rem;
+			line-height:3.5rem;
+			display:-webkit-box;
+			display:box;
+			display:-webkit-flex;
+			display:flex;
+
+		}
+		.memberDynamic-return{
+			position:relative;
+			width:3.5rem;
+			height:4.5rem;
+		}
+		.memberDynamic-return:after{
+			content:"";
+			width:1rem;
+			height:1rem;
+			background-color:transparent;
+			position:absolute;
+			left:40%;
+			top:50%;
+			margin-top:-0.5rem;
+			border:2px solid transparent;
+			border-left-color:#fff;
+			border-top-color:#fff;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+			-webkit-transform: rotate(-45deg);
+			-moz-transform: rotate(-45deg);
+			-ms-transform: rotate(-45deg);
+			-o-transform: rotate(-45deg);
+			transform: rotate(-45deg);
+		}
+		.memberDynamic-return:before{
+			content:"";
+			width:30%;
+			height:2px;
+			background-color:#fff;
+			position:absolute;
+			left:38%;
+			top:50%;
+			margin-top:-1px;
+		}
+		.memberDynamic-img{
+			width:4.5rem;
+			height:4.5rem;
+			display:-webkit-box;
+			display:-webkit-flex;
+			display:flex;
+			flex-align:center;
+			box-align:center;
+			align-items: center;
+			
+			flex-line-pack:center;
+			justify-content: center;
+		}
+		.memberDynamic-img img{
+			height:70%;
+			width:70%;
+			-webkit-border-radius:50%;
+			-moz-border-radius:50%;
+			-o-border-radius:50%;
+			border-radius:50%;
+		}
+		#memberDynamic-nav div{
+			color:#fff;
+			text-align:center;
+			-webkit-box-flex:1;
+			-webkit-flex: 1;
+			flex:1;
+		}
+		.active{
+			position:relative;
+		}
+		.active:after{
+			position:absolute;
+			content:"";
+			width:100%;
+			height:2px;
+			bottom:0;
+			left:0;
+			background:#fff;
+		}
+	</style>
+
+</head>
+<body>
+	<header>
+		<script type="text/template" id="memberDynamicTem">
+			<div id="memberDynamic-header">
+				<span class="memberDynamic-return" onclick="api.closeWin()"></span>
+				<p>{{=it.uNickName}}</p>
+				<span class="memberDynamic-img">
+					<img src="{{=it.uImg}}">
+				</span>
+			</div>
+			<nav id="memberDynamic-nav">
+				<div class="active" tapmode="" onclick="openIntruce.call(this)">介绍</div>
+				<div tapmode="" onclick="openSupply.call(this)">供求</div>
+				<div tapmode="" onclick="openDynamic.call(this)">动态</div>
+			</nav>
+		</script>
+	</header>
+	<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="../script/doT.min.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	<script type="text/javascript">
+
+		function memberInit(id){
+			
+			// 显示加载窗口
+		    api.showProgress({
+		        title: '加载中...',
+		        modal: false
+		    });
+			common.getUserInfoById(id,function(t){
+				common.templateData("#memberDynamicTem","header",t);
+				// 等header加载完之后再显示groups
+				openDynamicGroups();
+				api.hideProgress();
+			})
+		}
+		
+		function clickActive(){
+			$(this).addClass('active');
+			var divs=$(this).siblings();
+			divs.each(function(index, el) {
+				$(el).removeClass('active');
+			});
+		}
+		function openIntruce(){
+			// api.openWin({
+			// 	name:"member_dynamic_introduce",
+			// 	url:"./member_dynamic_introduce.html",
+			// 	pageParam:{member_dynamic_introduce:id}
+			// })
+			clickActive.call(this);
+			api.setFrameGroupIndex({
+			    name: 'memberDynamic',
+			    index:0,
+			    scroll:true
+			});
+		}
+
+		function openSupply(){
+			// api.openWin({
+			// 	name:"member_dynamic_supply",
+			// 	url:"./member_dynamic_supply.html",
+			// 	pageParam:{member_dynamic_supply:id}
+			// })
+			clickActive.call(this);
+			api.setFrameGroupIndex({
+			    name: 'memberDynamic',
+			    index:1,
+			    scroll:true
+			});
+		}
+		function openDynamic(){
+			// api.openWin({
+			// 	name:"member_dynamic_dynaInfos",
+			// 	url:"./member_dynamic_dynaInfos.html",
+			// 	pageParam:{member_dynamic_dynaInfos:id}
+			// })
+			clickActive.call(this);
+			api.setFrameGroupIndex({
+			    name: 'memberDynamic',
+			    index:2,
+			    scroll:true
+			});
+		}
+
+		function openDynamicGroups(){
+			api.openFrameGroup({
+				name:"memberDynamic",
+				scrollEnabled:false,
+				rect:{
+					x:0,
+					y:parseInt($("header").height()),
+					w:api.winWidth,
+					h:api.winHeight-parseInt($("header").height())
+				},
+				index:0,
+				frames:[{
+					name:"member_dynamic_introduce",
+					url:"./member_dynamic_introduce.html",
+					pageParam:{member_dynamic_introduce:api.pageParam.member_dynamic_id}
+				},{
+					name:"member_dynamic_supply",
+					url:"./member_dynamic_supply.html",
+					pageParam:{member_dynamic_supply:api.pageParam.member_dynamic_id}
+				},{
+					name:"member_dynamic_dynaInfos",
+					url:"./member_dynamic_dynaInfos.html",
+					pageParam:{member_dynamic_dynaInfos:api.pageParam.member_dynamic_id}
+				}]
+			});
+		}
+
+		//memberInit("240");
+		apiready=function(){
+			memberInit(api.pageParam.member_dynamic_id);
+		}
+	</script>
+</body>
+</html>

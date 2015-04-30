@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>search</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="../css/api.css">
+	<style type="text/css">
+		.search{
+			height:3rem;
+			width:100%;
+			background-color:#fe4444;
+			font-size:0px;
+		}
+		
+		#search-input{
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing:border-box;
+			-ms-box-sizing:border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+			border-bottom:1px solid rgba(255, 255, 255, 0.259);
+			color:#fff;
+			width:100%;
+			height:3rem;
+			vertical-align:bottom;
+			padding-right:3rem;
+			padding-left:3rem;
+			margin-left:-3rem;
+			margin-right: -3rem;
+			display:inline-block;
+
+		}
+		#search-input:focus{
+			outline:none;
+		}
+		.search-return{
+			position:relative;
+			font-size: 1.5rem;
+			height:3rem;
+			width:3rem;
+			font-family: 'Glyphicons Halflings';
+			border-bottom:1px solid #fe4444;
+		}
+		.search-return:after{
+			position: absolute;
+			content:"\e257";
+			color:#fff;
+			height:3rem;
+			width:3rem;
+			text-align:center;
+			line-height:3rem;
+
+		}
+		/*.search-return:before{
+			content:"";
+			width:30%;
+			height:2px;
+			background-color:#fff;
+			position:absolute;
+			left:38%;
+			top:50%;
+			margin-top:-1px;
+		}*/
+		.search-sure{
+			width:3rem;
+			height:3rem;
+			background-image:url("../image/search.png");
+			background-size:30px;
+			background-repeat:no-repeat;
+			background-position:center;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing:border-box;
+			-ms-box-sizing:border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+			/*border-bottom:1px solid rgba(255, 255, 255, 0.259);*/
+		}
+
+		nav{
+			height:4rem;
+			line-height:4rem;
+			text-align:center;
+			width:100%;
+			display:-webkit-box;
+			display:-webkit-flex;
+			display:flex;
+			background-color:#FF4545;
+			-webkit-box-shadow:0 4px 10px rgba(0, 0, 0, 0.29);
+			-moz-box-shadow:0 4px 10px rgba(0, 0, 0, 0.29);
+			box-shadow: 0 4px 10px rgba(0, 0, 0, 0.29);
+		}
+		nav div{
+			-webkit-box-flex:1;
+			-webkit-flex:1;
+			flex:1;
+			color:#fff;
+		}
+		#search-tip{
+
+			position:absolute;
+			height:3rem;
+			width:6rem;
+			line-height:3rem;
+			padding-left:1rem;
+			color:#fff;
+			opacity: 0.3;
+		}
+		.active{
+			position:relative;
+		}
+		.active:after{
+			position:absolute;
+			left:0;
+			bottom:0;
+			content:"";
+			width:100%;
+			height:0;
+			border:0px;
+			border-bottom:3px solid white;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<div class="search">
+			<span class="search-return" onclick="api.closeWin()"></span>
+			<label id="search-tip">搜索内容</label>
+			<input id="search-input" type="text" autofocus>
+			<span id="search-sure" class="search-sure"></span>
+		</div>
+		<nav id="nav">
+			<div class="active" data="news">咨讯</div>
+			<div data="demand">供求</div>
+			<div data="circle">圈子</div>
+		</nav>
+	</header>
+	<section>
+		
+	</section>
+	<!-- http://www.transformicons.com/-->
+	<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript">
+
+		$("#search-tip").click(function(event) {
+			$("#search-input").focus();
+		});
+
+		$("#search-input").on('input',function(){
+			if($(this).val()==""){
+				$("#search-tip").css("opacity",0.3);
+			}else{
+				$("#search-tip").css("opacity",0);
+			}
+		});
+
+		$("#search-sure").click(function(event) {
+			
+			var t=$(this).css('background-image');
+			if(t.indexOf('search')>0){
+				$(this).css('background-image', 'url("../image/cancel.png")');
+				var jugdeNavName=jugdeNav();
+				var tag=$("#search-input").val();
+				if(!tag){
+					api.alert({
+						msg:"输入不能为空！"
+					});
+				}else{
+					switch(jugdeNavName){
+						case "news":
+								api.execScript({
+									frameName:"advisory_infoList",
+									script:"advisoryChangeByTag('"+tag+"');"
+								});
+							break;
+						case "demand":
+								api.execScript({
+									frameName:"supply_infoList",
+									script:"supplyListReloadByClass('"+tag+"');"
+								});
+							break;
+						case "circle":
+								api.execScript({
+									frameName:"circle",
+									script:"circleChangeByTag('"+tag+"');"
+								});
+							break;
+					}
+				}
+			}else{
+				$("#search-input").val("").focus();
+				$(this).css('background-image', 'url("../image/search.png")');
+			}
+		});
+		var divs=$("#nav div");
+		function jugdeNav(){
+			for (var i = 0; i < divs.length; i++) {
+				if($(divs[i]).hasClass('active')){
+					return $(divs[i]).attr('data');
+				}
+			};
+		}
+		divs.each(function(index, el) {
+			$(el).click(function(event) {
+				$(this).addClass('active');
+				api.setFrameGroupIndex({
+				    name: 'searchGroup',
+				    index: index
+				});
+				var divOthers=$(this).siblings();
+				divOthers.each(function(index,el){				
+					$(el).removeClass('active');
+				});
+			});
+			
+		});
+		apiready=function(){
+			// api.openFrame({
+   //  		    name:'supply_infoList',
+   //  		    url:'./supply_infoList.html',
+   //  		    rect:{
+   //  		        x:0,
+   //  		        y:parseInt($("header").height()),//默认设置一样高
+   //  		        w:api.frameWidth,
+   //  		        h:api.frameHeight-parseInt($("header").height())
+   //  		    },
+   //  		    bounces:true,
+   //  		    vScrollBarEnabled:true,
+   //  		    hScrollBarEnabled:false
+   //      	});
+        	api.openFrameGroup ({
+        	    name: 'searchGroup',
+        	    background:'#fff',
+        	    scrollEnabled:false,
+        	    rect:{
+    		        x:0,
+    		        y:parseInt($("header").height()),//默认设置一样高
+    		        w:api.frameWidth,
+    		        h:api.frameHeight-parseInt($("header").height())
+    		    },
+        	    index:0,
+        	    frames:
+        	    [{
+        	       	name: 'advisory_infoList',
+	                url: '../html/advisory_infoList.html',
+	                bounces: false, 
+        	        vScrollBarEnabled:true,
+        	        hScrollBarEnabled:true
+        	    },{
+        	        name: 'supply_infoList',
+				    url: '../html/supply_infoList.html',
+        	        bounces: false, 
+        	        vScrollBarEnabled:true,
+        	        hScrollBarEnabled:true
+        	    },{
+        	    	name: 'circle',
+				    url: '../html/circle.html',
+        	        bounces: false, 
+        	        vScrollBarEnabled:true,
+        	        hScrollBarEnabled:true
+        	    }]
+        	}, function(ret, err){
+        	    var name = ret.name;
+        	    var index = ret.index;
+        	});
+
+
+			api.addEventListener({
+				name:'swipeleft',
+			},function(ret,err){
+				api.alert({msg:ret});
+			});
+			api.addEventListener({
+				name:'swiperight',
+			},function(ret,err){
+				api.alert({msg:ret});
+			});
+		}
+	</script>
+</body>
+</html>

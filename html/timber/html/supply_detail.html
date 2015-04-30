@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>supply_detail</title>
+	<link rel="stylesheet" type="text/css" href="../css/api.css">
+	<style type="text/css">
+		html,body{
+			height:100%;
+			width:100%;
+		}
+		body{
+			overflow:auto;
+		}
+		*{
+			font-size:16px;
+		}
+		.header{
+			width:100%;
+			padding-top:2%;
+			font-size:32px;
+			text-align:center;
+			padding-bottom:2%;
+			border-bottom:1px solid #ccc;
+		}
+		.box_sizing{
+			box-sizing: border-box;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-ms-box-sizing:border-box;
+			-o-box-sizing:border-box;
+		}
+		.info{
+			padding:0px 2%;
+		}
+		.info div{
+			display:-webkit-box;
+			display:-webkit-flex;
+			display:flex;
+			border-bottom:1px solid #ccc;
+		}
+
+		.info div p{
+			text-align:center;
+			padding:3%;
+			color:#8E8E8E;
+		}
+		.info div .textRight{
+			color:#323232;
+			-webkit-box-flex: 1;
+		    -webkit-flex: 1;
+		    flex: 1;
+			text-align:right;
+			padding:3%;
+		}
+		.contact{
+			font-size:16px;
+		}
+		.contact img{
+			width:20%;
+			margin:4% 0% 2% 0%;
+		}
+		.info .last{
+			border:0px;
+		}
+		.picture img{
+			width:100%;
+		}
+		.picture p{
+			padding:2%;
+			line-height:25px;
+		}
+		.sale{
+			color:#60AFFF;
+		}
+		.buy{
+			color:#FF745E;
+		}
+	</style>
+
+</head>
+<body>
+	<script type="text/template" id="supply_info">
+		<section>
+			<div class="header box_sizing {{=it.signClass}}">
+				{{=it.signText}}
+			</div>
+			<section class="box_sizing info">
+				<div class="box_sizing">
+					<p>名称</p>
+					<p class="textRight">{{=it.productName}}</p>
+				</div>
+				<div class="box_sizing">
+					<p>品名</p>
+					<p class="textRight">{{=it.productNameOfArticle}}</p>
+				</div>
+				<div class="box_sizing">
+					<p>分类</p>
+					<p class="textRight">{{=it.productType}}</p>
+				</div>
+				<div class="box_sizing">
+					<p>时间</p>
+					<p class="textRight">{{=it.productTime}}</p>
+				</div>
+			</section>
+		</section>
+		<section class="box_sizing">
+			<div class="header contact">
+				<img src="{{=it.userImg}}">
+				<p>{{=it.userNickName}}</p>
+			</div>
+			<section class="box_sizing info">
+				<div class="box_sizing">
+					<p>联系人</p>
+					<p class="textRight">{{=it.userContact}}</p>
+				</div>
+				<div class="box_sizing">
+					<p>电话</p>
+					<p class="textRight">{{=it.userTel}}</p>
+				</div>
+				<div class="box_sizing last">
+					<p>地址</p>
+					<p class="textRight">{{=it.userAddress}}</p>
+				</div>
+			</section>
+		</section>
+		<section class="picture">
+			{{=it.productInfos}}
+		</section>
+	</script>
+	<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="../script/api.js"></script>
+    <script type="text/javascript" src="../script/doT.min.js"></script>
+    <script type="text/javascript" src="../script/common.js"></script>
+    <script type="text/javascript">
+    	// 区域
+    	var staicUrl="http://www.anywood.com";
+    	var message={};
+    	function initInfo(relateUrl){
+    		// api.showProgress({
+		    //     title: '加载中...',
+		    //     modal: false
+		    // });
+	    	common.getData(relateUrl,data="",function(result){
+	    		var data=result.data.data;
+	    		var user=result.data.user;
+	    		console.log(data,user);
+
+	    		if(data.buy_or_sale=="1"){
+	    			message.signText="销售信息";
+	    			message.signClass="sale";
+	    		}else if(data.buy_or_sale=="2"){
+	    			message.signText="采购信息";
+	    			message.signClass="buy";
+	    		}
+
+	    		message.productName=data.title;//名称
+	    		message.productNameOfArticle=data.category_name;//品名
+	    		message.productType=data.category_title;//分类
+	    		message.productTime=common.timeFormate(data.create_time,"y年m月d日 h:i");
+
+	    		message.userImg=staicUrl+user.avatar;// 头像
+	    		message.userNickName=user.nickname;//用户昵称
+	    		message.userContact=user.contact;//联系人
+	    		message.userTel=user.mobile;//电话
+	    		message.userAddress=data.address;//地址
+
+	    		message.productInfos=data.parse_content;//详细信息
+
+	    		//api.alert({msg:message});
+
+	    		var body=$api.dom("body");
+	    		var teplate=$api.byId("supply_info").text;
+	    		
+	    		var temp=doT.template(teplate);
+	    		
+	    		body.innerHTML=temp(message);
+
+	    		api.hideProgress();
+
+	    		// 打开子窗口
+	    		api.openFrame({
+	    		            name: 'supply_return',
+	    		            url: './supply_return.html',
+	    		            pageParam:{supply_detail_tel:message.userTel},
+	    		            bounces: false,
+	    		            rect: {
+	    		                x: 0,
+	    		                y: api.winHeight-50,
+	    		                w: 'auto',
+	    		                h: 50
+	    		       }
+	    		});
+			});
+    	}
+    	
+    	//initInfo("/demand/detail?id=4452");
+    	apiready=function () {
+    		// getData("/demand/detail?id="+api.pageParam.id+"",function(result){
+
+    		// });
+			//api.alert({msg:api.pageParam.supply_detail});
+			initInfo("/demand/detail?id="+api.pageParam.supply_detail+"");
+    	}
+    </script>
+</body>
+</html>

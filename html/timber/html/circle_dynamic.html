@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>circle_dynamic</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="../css/api.css">
+	<style type="text/css">
+		h1{
+			font-size: 2em;
+			padding:10px;
+			color:rgb( 33, 33, 33 );
+		}
+		h2{
+			font-size:1em;
+			color:rgba( 0, 0, 0, 0.541);
+			padding:10px;
+			padding-top:0px;
+		}
+		.content{
+			width:100%;
+			overflow:auto;
+		}
+		.userImg{
+			position:absolute;
+			width:3rem;
+			height:3rem;
+			margin-top:-2rem;
+			right:10px;
+		}
+		.userImg img{
+			width:100%;
+			height:100%;
+			border-radius:50%;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/template" id="dynamicTem">
+		<h1>{{=it.title}}</h1>
+		<h2>{{=it.uName}}|{{=it.uTime}}</h2>
+		<span class="userImg">
+			<img src="{{=it.uImg}}">
+		</span>
+		<div class="content" id="dynamic_content">
+			{{=it.content}}
+		</div>
+	</script>
+	<div id="dynamicCon">
+		
+	</div>
+	<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="../script/doT.min.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	
+	<script type="text/javascript">
+		function mainContent(){
+			$("#dynamic_content").height(parseInt($(window).height())-parseInt($("h1").height())-parseInt($("h2").height()));
+		}
+		var staticUrl="http://www.anywood.com"
+		function dynamicInfo(url){
+			common.getData(url,"",function(result){
+				var data=result.data;
+				common.getData("/circle/detail?uid="+data.uid+"","",function(result2){
+					var person=result2.data;
+					console.log(person);
+					var dynamicMessage={};
+					dynamicMessage.uId=data.uid;
+					dynamicMessage.uName=person.nickname;
+					dynamicMessage.uTime=common.timeFormate(data.create_time);
+					dynamicMessage.uImg=staticUrl+person.avatar;
+					dynamicMessage.title=data.title;
+					dynamicMessage.content=data.parse_content;
+					common.templateData("#dynamicTem","#dynamicCon",dynamicMessage);
+				});
+				
+			});
+		};
+		dynamicInfo("/dynamic/detail?id=19");
+		apiready=function(){
+			mainContent();
+			dynamicInfo("/dynamic/detail?id="+api.pageParam.circle_dynamic_id+"");
+			api.openFrame({
+				name: 'circle_dynamic_return',
+				url: './circle_dynamic_return.html',
+				pageParam:{},
+				bounces: false,
+				rect: {
+				    x: 0,
+				    y: api.winHeight-50,
+				    w: 'auto',
+				    h: 50
+				}
+			});
+		}
+	</script>
+	
+</body>
+</html>

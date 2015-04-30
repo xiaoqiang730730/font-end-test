@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>member_dynamic_introduce</title>
+	<meta  name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<style type="text/css">
+		img{
+			max-width:100%;
+			margin:0 auto;
+		}
+		div{
+			width:100%;
+		}
+		.noresult-p{
+			text-align:center;
+		}
+	</style>
+</head>
+<body>
+	<script type="text/template" id="memberTrTem">
+	{{ if(it.noImg){ }}
+			<p class="noresult-p"><img src="../image/noresult.png"/></p>
+	{{  }if(it.uProduct){ }}
+			<div>{{=it.uProduct}}</div>
+
+	{{ }if(it.uBackIntroduce){ }}
+			<div>{{=it.uBackIntroduce}}</div>
+	{{  } }}
+	</script>
+	<div id="memberTrCon">
+		
+	</div>
+	<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="../script/doT.min.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	<script type="text/javascript">
+		// common.getUserIntroducs(236,function(m){
+		// 	common.templateData("#memberTrTem","#memberTrCon",m);
+		// });
+		apiready=function(){
+			common.getUserIntroducs(api.pageParam.member_dynamic_introduce,function(m){
+				//api.alert({msg:m});
+				common.templateData("#memberTrTem","#memberTrCon",m);
+			});
+
+			api.setRefreshHeaderInfo({
+                    visible: true,
+                    bgColor: '#f2f2f2',
+                    textColor: '#4d4d4d',
+                    textDown: '下拉刷新...',
+                    textUp: '松开刷新...',
+                    showTime: true
+                }, function(ret, err) {
+	                common.getUserIntroducs(api.pageParam.member_dynamic_introduce,function(m){
+						//api.alert({msg:m});
+						common.templateData("#memberTrTem","#memberTrCon",m);
+						});
+                    api.refreshHeaderLoadDone();
+            });
+		}
+	</script>
+</body>
+</html>

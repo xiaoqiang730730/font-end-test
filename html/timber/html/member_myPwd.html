@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>member_myEmail</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <link rel="stylesheet" type="text/css" href="../css/api.css">
+    <style type="text/css">
+		header{
+			width:100%;
+			height:3rem;
+			background-color:#EEEEEE;
+			font-size:0px;
+			border-bottom:1px solid #ccc;
+		}
+		header span:nth-child(1){
+			width:50%;
+			height:3rem;
+			background-image:url("../image/delete.png");
+			background-repeat:no-repeat;
+			background-position:5% center;
+			background-size:20px;
+			vertical-align:top;
+		}
+		header span:nth-child(2){
+			width:50%;
+			height:3rem;
+			line-height:3rem;
+			font-size:16px;
+			color:#FE4444;
+			text-align:right;
+			padding-right:20px;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+			vertical-align:top;
+		}
+		#pwd input{
+			width:90%;
+			margin:0.5rem 5% 0.5rem 5%;
+			height:3rem;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+			border:1px solid #ccc;
+			border-radius:6px;
+			padding:0.5rem;
+		}
+		#pwd input:nth-child(4){
+			color:#fff;
+			background-color:#fe4444;
+		}
+    </style>
+</head>
+<body>
+	<header>
+		<span onclick="api.closeWin()"></span>
+		<span>修改密码</span>
+	</header>
+	<section id="pwd">
+		<input type="password" placeholder="当前密码">
+		<input type="password" placeholder="新密码">
+		<input type="password" placeholder="确认新密码">
+		<input type="button" value="确认修改" id="sure">
+	</section>
+<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="../script/common.js"></script>
+<script type="text/javascript" src="../script/api.js"></script>
+<script type="text/javascript">
+	var staticRegisterUrl="http://muli.topthink.net/api.php/user/setpassword";
+	$("#sure").click(function(event) {
+		var inputs=$("#pwd input");
+		var param={
+			oldPassword:$(inputs[0]).val(),
+			newPassword:$(inputs[1]).val(),
+			surePwd:$(inputs[2]).val()
+		};
+		if(param.newPassword!=param.surePwd){
+			api.alert({msg:"新密码不一样"});
+			return;
+		}
+		api.showProgress({
+			text:"加载中！",
+			modal:false
+		});
+		$api.post(staticRegisterUrl,
+					{values:param},
+				function(ret){
+						api.hideProgress();
+						if(!ret.code){
+							api.toast({
+								msg:"修改成功！",
+								duration:100,
+								location:"middle"
+							});
+							api.closeWin();
+						}else{
+							api.alert({msg:ret.msg});
+						}
+		});
+	});
+</script>
+</body>
+</html>

@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>供求</title>
+    <link rel="stylesheet" type="text/css" href="../css/api.css">
+    <style type="text/css">
+        header{
+            display:-webkit-box;
+            display:-webkit-flex;
+            display:flex;
+            width:100%;
+            height:50px;
+            background-color:#f00;
+            color:#fff;
+            text-align:center;
+            line-height:50px;
+        }
+        .select{
+            -webkit-box-flex:1;
+            -webkit-flex:1;
+            flex:1;
+            box-sizing: border-box;
+            color:#fff;
+            border-top:1px solid #fff;
+        }
+        .separate{
+            height:40px;
+            margin:auto;
+            width:1px;
+            background-color:#fff;
+        }
+        .leftSeparate{
+            position:relative;
+        }
+        .leftSeparate:after{
+            position:absolute;
+            content:"";
+            width:1px;
+            height:40px;
+            top:5px;
+            right:0;
+            background-color:#fff;
+        }
+        .leftSelectAce{
+            position:relative;
+        }
+        .leftSelectAce:before{
+            position:absolute;
+            content:"";
+            width:0;
+            height:0;
+            border:6px solid transparent;
+            border-top-color:#fff;
+            right:20%;
+            top:50%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="select leftSelectAce leftSeparate">分类</div>
+        
+        <div id="select_zone" class="select leftSelectAce leftSeparate" onclick="openCityListWin()" tapmode>地区</div>
+        
+        <div class="select leftSelectAce">筛选</div>
+    </header>
+    <section id="main">
+        
+    </section>
+    <script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="../script/api.js"></script>
+    <script type="text/javascript" src="../script/common.js"></script>
+    <script type="text/javascript">
+        function openCityListWin(){
+            api.openWin({
+                name: 'supply_citySelect',
+                url: './supply_citySelect.html',
+                reload:true
+            });
+        }
+
+        function updateCity(city){
+            var select_zone=$api.byId("select_zone");
+            select_zone.textContent=city;
+        }
+        
+        common.getData("/demand/getlist",function(result){
+                console.log(result.data);
+                var data=result.data;
+        });
+        apiready = function(){
+        	var listview = api.require('listView');
+            var header=$api.offset($api.dom("header"));
+        	var lvh = api.frameHeight;
+            var select_zone=$api.byId("select_zone");
+            
+            common.getData("/demand/getlist",function(result){
+                
+
+                
+                var data=result.data.data;
+                var dataElement=[];
+                var supply_sale="widget://image/1.png";
+                var supply_buy="widget://image/2.png";
+                for(var i=0;i<data.length;i++){
+                    //var elemet={};
+                    var img;
+                    if(data[i].buy_or_sale=="1"){
+                        img=supply_sale;
+                    }else if(data[i].buy_or_sale=="2"){
+                        img=supply_buy;
+                    }
+                    // elemet.titleColor='#000';
+                    // elemet.titleSize=25;
+                    // elemet.subTitleColor='#fafafa';
+                    // elemet.subTitleSize=20;
+                    // elemet.title=data[i].title;
+                    // var subTitle=+common.timeFormate(data[i].create_time);
+                    // elemet.subTitle="hhh";
+                    dataElement.push({
+                        img:img,
+                        titleColor: '#000000',
+                        titleSize:25,
+                        subTitleColor: '#999999',
+                        subTitleSize:20,
+                        title:data[i].title,
+                        subTitle:data[i].user.nickname+"|"+common.timeFormate(data[i].create_time)
+                    });
+                }
+                //api.alert({msg:dataElement});
+            	listview.open({
+                    x:0,
+            		y: header.h,
+            	    h: lvh-header.h,
+            	    leftBtn: [{color:'#b2b2b2', title:'取消收藏'}],
+            	    rightBtn: [{color:'#90b600', title:'收藏'}],
+            	    borderColor: '#ccc',
+            	    cellBgColor: '#fafafa',
+            	    cellHeight:0.2*api.frameWidth,
+                    imgHeight:30,
+                    imgWidth:50,
+            	    fixedOn: 'supply',
+            	    data:dataElement
+            	},function(ret,err){
+            		api.openWin({
+            		    name: 'supply_detail',
+                        pageParam:{supply_detail:data[ret.index].id},
+            		    url: './supply_detail.html'
+            		});
+
+            	    // api.alert({msg:ret.index});
+            	});
+
+            });
+
+           // citySelect();
+    	}
+    </script>
+</body>
+</html>

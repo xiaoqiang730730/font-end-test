@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>advisory_infoList</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<style type="text/css">
+		span{
+			width:6rem;
+			font-size:0px;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+			padding:0.8rem;
+			display:-webkit-box;
+			display:-webkit-flex;
+			display:box;
+
+			display:flexbox;
+			display:flex;
+			align-items: center;
+			justify-content: center;
+		}
+		span img{
+			width:100%;
+			font-size:0px;
+		}
+		li{
+			border-bottom:1px solid #e6e6e6;
+		}
+		p{
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+		}
+		.noImg{
+			display:-webkit-box;
+			display:box;
+			display:-webkit-flex;
+			display:flex;
+			-webkit-box-orient: vertical;
+			box-orient:vertical;
+			-webkit-flex-direction:column;
+    		flex-direction:column;
+    		/*height:4rem;*/
+		}
+		.noImg p{
+			-webkit-box-flex:1;
+			-webkit-flex:1;
+			flex:1;
+
+		}
+		.hasImg{
+			display:-webkit-box;
+			display:box;
+			display:-webkit-flex;
+			display:flex;
+			-webkit-box-align:baseline;
+			-moz-box-align:baseline;
+			box-align:baseline;
+		}
+		.hasImg div{
+			-webkit-box-flex:1;
+			-webkit-flex:1;
+			flex:1;
+			display:-webkit-box;
+			display:box;
+			display:-webkit-flex;
+			display:flex;
+			-webkit-box-orient: vertical;
+			box-orient:vertical;
+			-webkit-flex-direction:column;
+    		flex-direction:column;
+		}
+		.hasImg div p{
+			-webkit-box-flex:1;
+			-webkit-flex:1;
+			flex:1;
+		}
+		.noImg p:nth-child(1){
+			padding:0.8rem 0px 0px 0.8rem;
+		}
+		.noImg p:nth-child(2){
+			padding:0.4rem 0px 0.8rem 0.8rem;
+			color:#999999;
+		}
+
+		.hasImg div p:nth-child(1){
+			padding:0.8rem 0px 0px 0.8rem;
+		}
+		.hasImg div p:nth-child(2){
+			padding:0.4rem 0px 0.8rem 0.8rem;
+			color:#999999;
+		}
+		.noresult-p{
+            text-align:center;
+        }
+
+	</style>
+</head>
+<body>
+	<script type="text/template" id="advisoryTem">
+		{{if(it.length){}}
+			{{ for (var i = 0; i < it.length; i++) { }}
+				 {{ if(it[i].advImg){ }}
+				 	<li class="hasImg" tapmode="" onclick="advClick({{=it[i].advId}});">
+				 		<span><img src="{{=it[i].advImg}}"></span>
+				 		<div>
+				 			<p>{{=it[i].advTitle}}</p>
+				 			<p>{{=it[i].advTime}}</p>
+				 		</div>
+				 	</li>
+				 {{ }else{ }}
+				 	<li class="noImg" tapmode="" onclick="advClick({{=it[i].advId}});">
+					 	<p>{{=it[i].advTitle}}</p>
+					 	<p>{{=it[i].advTime}}</p>
+				 	</li>
+				 {{ } }}
+			{{ } }}
+		{{ }else{}}
+			<p class="noresult-p"><img src="../image/noresult.png"/></p>
+		{{}}}
+	</script>
+	<ul id="advisoryCon">
+		<!-- <li class="noImg">
+			<p>你好啊大啊实打zcfsdf 实打啊实打zcfsdf 实打啊实打zcfsdf 实打苏打上</p>
+			<p>撒大苏打</p>
+		</li>
+		<li class="hasImg">
+			<span><img src="../image/advisory_content_01.png"></span>
+			<div>
+				<p>啊实打zcfsdf 实啊实打zcfsdf 实打啊实打zcfsdf 实打啊实打zcfsdf 实打打算</p>
+				<p>啊实打实</p>
+			</div>
+		</li>
+		<li class="noImg">
+			<p>你好啊大苏打上</p>
+			<p>撒大苏打</p>
+		</li>
+		<li class="hasImg">
+			<span><img src="../image/advisory_content_01.png"></span>
+			<div>
+				<p>啊实打实打算</p>
+				<p>啊实打实</p>
+			</div>
+		</li> -->
+	</ul>
+	<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	<script type="text/javascript" src="../script/doT.min.js"></script>
+	<script type="text/javascript">
+
+		var staticUrl="http://www.anywood.com";
+
+		// 设置全局页数
+		var p;
+
+		var param={
+			p:1,
+			category:"news",
+			tag:""
+		};
+
+		// 第一次显示数据
+		var init=true;
+
+		var advisoryLists=[];
+
+		function reSetInit(){
+			param.p=1;
+			init=true;
+			advisoryLists=[];
+		}
+
+		// 根据大类别id
+		function advisoryChange(id){
+			reSetInit();
+			if(id=="all"){
+				param.category="news";
+				advisoryLnfos("/news/getlist");
+			}else{
+				param.category=id;
+				advisoryLnfos("/news/getlist");
+			}
+		}
+
+		// 根据tag更新数据
+		function advisoryChangeByTag(tag){
+			api.alert({
+				msg:"heheh"+tag
+			});
+			reSetInit();
+			param.category="news";
+			param.tag=tag;
+			advisoryLnfos("/news/getlist");
+		}
+
+		function advisoryLnfos(url){
+			
+		    // 第一次不用判断
+		    if(!init){
+		    	if(param.p0>p){
+		    		return;
+		    	}
+		    }
+		    
+		    // 显示加载窗口
+	    	// api.showProgress({
+		    //     title: '加载中...',
+		    //     modal: false
+	    	// });
+			common.getData(url,param,function(result){
+				console.log(result);
+
+				var data=result.data.data;
+				//api.alert({msg:data});
+
+				// 第一次数据加载
+				if(init){
+					// 获得总页数向上舍入
+					p=Math.ceil(result.data.total/result.data.pagesize);
+					init=false;
+				}
+
+				for (var i = 0; i < data.length; i++) {
+					if(parseInt(data[i].cover_id)){
+							advisoryLists.push({
+							advId:data[i].id,
+							advTitle:data[i].title,
+							advTime:common.timeFormate(data[i].create_time),
+							advImg:staticUrl+data[i].cover_thumb_url
+						})
+						}else{
+							advisoryLists.push({
+								advId:data[i].id,
+								advTitle:data[i].title,
+								advTime:common.timeFormate(data[i].create_time),
+							})
+						}
+				}
+				
+				common.templateData("#advisoryTem","#advisoryCon",advisoryLists);
+				// 隐藏加载窗口
+                //api.hideProgress();
+			});
+		}
+
+		function advClick(id){
+			api.openWin({
+				name:"advisory_detail",
+				pageParam:{id:id},
+				url:"./advisory_detail.html"
+			})
+		}
+
+		apiready=function(){
+
+			// 初始化数据
+			advisoryLnfos("/news/getlist");
+
+			api.setRefreshHeaderInfo({
+                    visible: true,
+                    bgColor: '#f2f2f2',
+                    textColor: '#4d4d4d',
+                    textDown: '下拉刷新...',
+                    textUp: '松开刷新...',
+                    showTime: true
+                }, function(ret, err) {
+                    reSetInit();
+                    advisoryLnfos("/news/getlist");
+                    api.refreshHeaderLoadDone();
+            });
+
+			// 拉到最下面更新数据
+		    api.addEventListener({
+			    name: 'scrolltobottom'
+			}, function(ret, err){
+				param.p=param.p+1;
+				// api.alert({msg:param});
+			    advisoryLnfos("/news/getlist");
+			});
+		}
+	</script>
+</body>
+</html>

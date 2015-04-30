@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>register</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="../css/api.css">
+	<style type="text/css">
+		header{
+			width:100%;
+			height:70px;
+			background-color:#EEEEEE;
+			font-size:0px;
+			border-bottom:1px solid #ccc;
+			display:-webkit-box-flex;
+			display:-webkit-flex;
+			display:flex;
+		}
+		header span:nth-child(1){
+			width:50%;
+			height:70px;
+			background-image:url("../image/delete.png");
+			background-repeat:no-repeat;
+			background-position:5% center;
+			background-size:20px;
+		}
+		header span:nth-child(2){
+			width:50%;
+			height:70px;
+			line-height:70px;
+			font-size:16px;
+			color:#FE4444;
+			text-align:right;
+			padding-right:20px;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+		}
+		.login{
+			display:-webkit-box;
+			display:-webkit-flex;
+			display:flex;
+			border-bottom:1px solid #ccc;
+		}
+		.login div{
+			-webkit-box:1;
+			-webkit-flex:1;
+			flex:1;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-ms-box-sizing:border-box;
+			-o-box-sizing:border-box;
+			box-sizing:border-box;
+			text-align:center;
+			vertical-align:middle;
+			display:-webkit-box;
+			display:-webkit-flex;
+			display:flex;
+			height:5rem;
+
+		}
+		.login div p{
+			-webkit-box:1;
+			-webkit-flex:1;
+			flex:1;
+			color:#fff;
+			line-height:3.5;
+		}
+		.login div span{
+			width:4rem;
+			background-repeat:no-repeat;
+			background-position:center;
+			background-size:68%;
+
+		}
+		.weixin{
+			padding:10px 2% 10px 5%;
+		}
+		.qq{
+			padding:10px 5% 10px 2%;
+		}
+		.weixin span{
+			display:inline-block;
+			background-color:#2fcc70;
+			background-image: url("../image/weixin.png");
+			-webkit-border-top-left-radius:5px;
+			-moz-border-top-left-radius:5px;
+			-ms-border-top-left-radius:5px;
+			-o-border-top-left-radius:5px;
+			border-top-left-radius:5px;
+			-webkit-border-bottom-left-radius:5px;
+			-moz-border-bottom-left-radius:5px;
+			-ms-border-bottom-left-radius:5px;
+			-o-border-bottom-left-radius:5px;
+			border-bottom-left-radius:5px;
+			
+		}
+		.weixin p{
+			background-color:#52d588;
+			-webkit-border-top-right-radius:5px;
+			-moz-border-top-right-radius:5px;
+			-ms-border-top-right-radius:5px;
+			-o-border-top-right-radius:5px;
+			border-top-right-radius:5px;
+			-webkit-border-bottom-right-radius:5px;
+			-moz-border-bottom-right-radius:5px;
+			-ms-border-bottom-right-radius:5px;
+			-o-border-bottom-right-radius:5px;
+			border-bottom-right-radius:5px;
+		}
+		.qq span{
+			background-color:#45b5ff;
+			background-image:url("../image/qq.png");
+			-webkit-border-top-left-radius:5px;
+			-moz-border-top-left-radius:5px;
+			-ms-border-top-left-radius:5px;
+			-o-border-top-left-radius:5px;
+			border-top-left-radius:5px;
+			-webkit-border-bottom-left-radius:5px;
+			-moz-border-bottom-left-radius:5px;
+			-ms-border-bottom-left-radius:5px;
+			-o-border-bottom-left-radius:5px;
+			border-bottom-left-radius:5px; 
+		}
+		.qq p{
+			background-color:#64c1ff;
+			-webkit-border-top-right-radius:5px;
+			-moz-border-top-right-radius:5px;
+			-ms-border-top-right-radius:5px;
+			-o-border-top-right-radius:5px;
+			border-top-right-radius:5px;
+			-webkit-border-bottom-right-radius:5px;
+			-moz-border-bottom-right-radius:5px;
+			-ms-border-bottom-right-radius:5px;
+			-o-border-bottom-right-radius:5px;
+			border-bottom-right-radius:5px;
+		}
+		#logining{
+			height:4rem;
+			background-color:#fff;
+			padding:20px 5% 10px 5%;
+		}
+		#logining input{
+			width:100%;
+			height:100%;
+			background-color:#fe4444;
+			color:#fff;
+			border-radius: 5px;
+		}
+		.userinfo{
+			width:100%;
+			border-bottom:1px solid #ccc;
+		}
+		.userinfo div{
+			width:100%;
+			display:-webkit-box;
+			display:-webkit-flex;
+			display:flex;
+			padding:10px 0px 10px 5%;
+			height:5rem;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing:border-box;
+			-ms-box-sizing:border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+		}
+		.userinfo input{
+			-webkit-box:1;
+			-webkit-flex:1;
+			flex:1;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing:border-box;
+			-ms-box-sizing:border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+			padding-left:5%;
+			border-bottom: 1px solid #ccc;
+		}
+		.userinfo span{
+			width:4rem;
+			background-color:#fff;
+			background-repeat:no-repeat;
+			background-position:center;
+			background-size:68%;
+		}
+		.userinfo div:nth-child(1) span{
+			background-image:url("../image/user.png");
+		}
+		.userinfo div:nth-child(2) span{
+			background-image:url("../image/pwd.png");
+		}
+		.userinfo div:nth-child(3) span{
+			background-image:url("../image/pwd.png");
+		}
+		.userinfo div:nth-child(4) span{
+			background-image:url("../image/phone.png");
+		}
+		.userinfo div:nth-child(5) span{
+			background-image:url("../image/mail.png");
+		}
+		.userinfo div:nth-child(5){
+			padding-bottom:0px;
+		}
+		.userinfo div:nth-child(5) input{
+			border-bottom:none;
+		}
+	</style>
+</head>
+<body>
+	<header>
+		<span onclick="api.closeWin()"></span>
+		<span onclick="login()">登陆</span>
+	</header>
+	<div class="login">
+		<div class="weixin">
+			<span></span>
+			<p>微信注册</p>
+		</div>
+		<div class="qq">
+			<span></span>
+			<p>QQ注册</p>
+		</div>
+	</div>
+	<form id="registerform">
+		<div class="userinfo">
+			<div><span></span><input type="text" placeholder="账号: 4-30个字符" required="required"></div>
+			<div><span></span><input type="password" placeholder="密码(至少6位)" required="required"></div>
+			<div><span></span><input type="password" placeholder="重复密码" required="required"></div>
+			<div><span></span><input type="tel" placeholder="手机号码" required="required"></div>
+			<div><span></span><input type="email" placeholder="邮件" required="required"></div>
+		</div>
+
+		<div id="logining"><input type="submit" value="注册"></div>
+	</form>
+	<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	<script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+		function login(){
+			api.openWin({
+				name:"login",
+				url:"./login.html"
+			});
+		}
+
+		var staticRegisterUrl="http://muli.topthink.net/api.php/user/doregister";
+
+		$("#registerform").submit(function(){
+			var inputs=$(".userinfo input");
+			var param={
+				username:$(inputs[0]).val(),
+				password:$(inputs[1]).val(),
+				mobile:$(inputs[3]).val(),
+				email:$(inputs[4]).val(),
+			}
+			if(param.username.length<4){
+				api.alert({msg:"账号：4-30个字符"});
+				return false;
+			}
+
+			if(param.password.length<6){
+				api.alert({msg:"密码(至少6位)"});
+				return false;
+			}
+
+			if(param.password!=$(inputs[2]).val()){
+				api.alert({msg:"两次密码不一样"});
+				return false;
+
+			}
+
+			if(param.mobile.length!==11){
+				api.alert({msg:"手机号不正确，必须是11位"});
+				return false;
+			}
+
+			api.showProgress({
+				title:"正在注册",
+				modal:true
+			});
+
+			$api.post(staticRegisterUrl,
+					{values:param},
+					function(ret){
+					api.hideProgress();
+					if(!ret.code){
+						api.closeWin();
+					}else{
+						api.alert({msg:ret.msg});
+					}
+			});
+			return false;
+		});
+	</script>
+</body>
+</html>

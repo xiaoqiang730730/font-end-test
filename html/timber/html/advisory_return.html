@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>advisory_return</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<style type="text/css">
+		*{
+			margin:0;
+			padding:0;
+		}
+		footer{
+			font-family: font-family:"SimHei","SimSun","Microsoft YaHei";
+			font-size: 25px;
+			font-weight:bold;
+			width:100%;
+			height:50px;
+			line-height:50px;
+			text-align:center;
+			display:-webkit-box;
+			display:-webkit-flex;
+			display:flex;
+			background-color:rgba( 254, 68, 68,0.769);
+		}
+		.bottom{
+			flex:1;
+			-webkit-flex: 1;
+			-webkit-box-flex: 1;
+			box-sizing: border-box;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-ms-box-sizing:border-box;
+			-o-box-sizing:border-box;
+			color:#fff;
+		}
+		.separate{
+			display:inline-block;
+			height:40px;
+			margin:auto;
+			margin-top:5px;
+			width:2px;
+			background-color:rgba(255,255,255, 0.302);
+		}
+		.textSpan{
+			vertical-align:middle;
+		}
+
+		.iPicture{
+			margin-right:4%;
+			width:30px;
+			height:30px;
+			display:inline-block;
+			vertical-align:middle;
+			
+			background-position:center;
+			background-repeat:no-repeat;
+			background-size:30px;
+		}
+		.return{
+			background-image:url("../image/return.png");
+		}
+		.chat{
+			background-image:url("../image/chat.png");
+		}
+	</style>
+</head>
+<body>
+	<footer>
+		<div class="bottom" onclick="api.closeWin()">
+			<i class="iPicture return"></i><span class="textSpan">返回</span></div>
+		<span class="separate"></span>
+		<div class="bottom">
+		   <i class="iPicture chat"></i><span class="textSpan">留言</span></div>
+	</footer>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>citySelect</title>
+	<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+	<link rel="stylesheet" type="text/css" href="../css/api.css">
+	<style type="text/css">
+		html,body{
+    		width:100%;
+    		height:100%;
+    		background-color: transparent !important;
+    	}
+    	div{
+    		/*background-color:#fff;*/
+    	}
+		#cityCon{
+            width:100%;
+            /*height: 100%;
+            overflow: auto;*/
+            text-align:center;
+            font-size:0px;
+        }
+        #cityCon li{
+            width: 33%;
+            text-align: center;
+            background-color:#fff;
+            height: 3rem;
+            line-height: 3rem;
+            background-color: #fff;
+            display: inline-block;
+            border: 1px solid rgba(204, 204, 204, 0.33);
+            font-size: 16px;
+            margin: -1px;
+        }
+        .active{
+        	color:#FF4545;
+        }
+        .noresult-p{
+            text-align:center;
+        }
+        .active{
+            color:#FF4545;
+        }
+	</style>
+</head>
+<body>
+    <script type="text/x-dot-template" id="cityTem">
+        {{if(it){}}
+            {{for(var i in it){}}
+            <li onclick="supplyCityChange.call(this,({{=i}}))">{{=it[i]}}</li>
+            {{}}}
+        {{}else{}}
+        <p class="noresult-p"><img src="../image/noresult.png"/></p>
+        {{}}}
+    </script>
+    <ul id="cityCon">
+    </ul>
+	<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="../script/doT.min.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+    <script type="text/javascript" src="../script/api.js"></script>
+	<script type="text/javascript">
+        $('body').click(function(event) {
+           var main = $('#cityCon');
+           if($(event.target).find(main).length){
+	           	api.execScript({
+	           		name:"root",
+	            	frameName:"supply",
+	            	script:"hideSupplyCityFrame()"
+	           	});
+           }
+        });
+		function cityLoad(){
+            if($api.getStorage("supplyCity")){
+                common.templateData("#cityTem","#cityCon",$api.getStorage("supplyCity"));
+            }else{
+                common.getCityLists(function(t){
+                    $api.setStorage("supplyCity",t);
+                    common.templateData("#cityTem","#cityCon",t);
+                });
+            }
+		}
+        
+        cityLoad();
+        function supplyCityChange(id){
+            $(this).addClass("active");
+            var lis=$(this).siblings();
+            lis.each(function(index,el){
+                $(el).removeClass("active");
+            });
+            api.execScript({
+                   frameName:'supply_infoList',
+                   script: "supplyListReloadByCity('"+id+"');"
+               });
+            api.execScript({
+	           		name:"root",
+	            	frameName:"supply",
+	            	script:"hideSupplyCityFrame()"
+	           	});
+        }
+		apiready=function(){
+			//cityLoad();
+				// var gpsCity=api.require("baiduMap");
+				// gpsCity.getLocation(function(ret,err){
+				// 	//api.alert({msg:"hehe"});
+				// 	api.alert({msg:ret});
+				// });
+
+				// var obj=api.require("cityList");
+				// obj.open({
+				// 	x: 0,
+				//     y: 50,
+				//     width: api.winWidth,
+			 //    	height:api.winHeight-50,
+			 //    	currentCity:"北京",
+				// 	resource:"widget://res/cityList.json"
+				// },function(ret,err){
+				// 	api.execScript({
+				// 		name:'root',
+				// 		frameName:'supply',
+				// 		script:'updateCity("'+ret.cityInfo.city+'");'
+				// 	});
+				// 	//$api.byId('select_zone').innerHTML = ret.cityInfo.city
+				// 	//api.pageParam.supply=ret.cityInfo;
+				// 	api.closeWin();
+				// 	//openSupplyWin(ret.cityInfo);
+				// });
+		}
+		
+	</script>
+</body>
+</html>

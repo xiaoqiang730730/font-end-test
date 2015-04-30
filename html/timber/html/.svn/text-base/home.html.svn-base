@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>home</title>
+	<link rel="stylesheet" type="text/css" href="../css/idangerous.swiper.css">
+
+	<link rel="stylesheet" type="text/css" href="../css/api.css" />
+	<script type="text/javascript" src="../script/idangerous.swiper.min.js"></script>
+	<style type="text/css">
+		html, body {
+		    height: 100%;
+		    width: 100%;
+		}
+		#abbr_advertise {
+			/*background: black;*/
+			width:100%;
+			height:15rem;
+			margin-bottom:3.4%;
+		}
+
+		#abbr_advisory {
+			width:100%;
+			margin-bottom:4%;
+			
+		}
+		#abbr_supply {
+			width:100%;
+			margin-bottom:4%;
+		}
+		#abbr_circle {
+			width:100%;
+			margin-bottom:4%;
+		}
+		.swiper-container {
+		  width: 100%;
+		  height:15rem;
+		  color: #fff;
+		  text-align:left;
+		}
+		.swiper-slide{
+			background-repeat:no-repeat;
+			background-position:center center;
+			background-size:cover;
+		}
+		.swiper-slide .title {
+			width:70%;
+		  text-shadow: 2px 2px 2px black;
+		  font-size: 32px;
+		  color:#fff;
+		  margin-top: 12rem;
+		  padding-left:1rem;
+		  line-height: 45px;
+		  text-overflow: ellipsis;
+		  overflow:hidden;
+		  white-space:nowrap;
+		}
+		.swiper-slide p {
+		  font-size: 25px;
+		}
+		.pagination {
+		  position: absolute;
+		  z-index: 20;
+		  right: 15px;
+		  bottom: 5%;
+		}
+		.swiper-pagination-switch {
+		  display: inline-block;
+		  width:16px;
+		  height:16px;
+		  -webkit-border-radius:50%;
+		  -moz-border-radius:50%;
+		  -ms-border-radius:50%;
+		  -o-border-radius:50%;
+		  border-radius: 50%;
+		  background: #DAD5D1;
+		  margin-right: 5px;
+		  opacity: 0.8;
+		  
+		  cursor: pointer;
+		}
+		.swiper-active-switch {
+		  background: #f00;
+		}
+		.swiper-dynamic-links {
+		  text-align: center;
+		}
+		.swiper-dynamic-links a {
+		  display: inline-block;
+		  padding: 5px;
+		  border-radius: 3px;
+		  border: 1px solid #ccc;
+		  margin: 5px;
+		  font-size: 12px;
+		  text-decoration: none;
+		  color: #333;
+		  background: #eee;
+		}
+		.home_title{
+			color:#9B9B9B;
+			font-size:16px;
+			height:3.5rem;
+			line-height:3.5rem;
+		}
+		.navSecond{
+			position:relative;
+			color:#9A9A9A;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+			padding-left:1rem;
+			height:3rem;
+			line-height:3rem;
+			border-bottom: 1px solid #e6e6e6; 
+		}
+		.navSecond:after{
+			position: absolute;
+			content:">";
+			right:10px;
+			color:#9A9A9A;
+		}
+		#abbr_advisory span{
+			width:5rem;
+			height:4rem;
+			margin-left:1rem;
+			font-size:0px;
+			vertical-align:top;
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+		}
+		#abbr_advisory span img{
+			width:100%;
+			height:100%;
+			font-size:0px;
+		}
+		#abbr_advisory li{
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+			border-bottom:1px solid #e6e6e6;
+		}
+		
+		p{
+			text-overflow: ellipsis;
+		    overflow:hidden;
+		    white-space:nowrap;
+		}
+		.noImg{
+    		height:4rem;
+		}
+		.hasImg{
+			font-size:0px;
+			height:4rem;
+		}
+		.hasImg div{
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+			width:100%;
+			position:absolute;
+			padding-left:6rem;
+			margin-left:-6rem;
+			font-size:1rem;
+			height:4rem;
+			display:inline-block;
+		}
+		.hasImg div p{
+			overflow:hidden;
+			text-overflow:ellipsis;
+			white-space:nowrap;
+			height:2rem;
+			padding-left:1rem;
+			padding-right:1.5rem;
+		}
+		.noImg p:nth-child(1){
+			height:2rem;
+			padding-left:1rem;
+			padding-right:1rem;
+			line-height: 2.5rem;
+		}
+		.noImg p:nth-child(2){
+			height:2rem;
+			padding-left:1rem;
+			padding-right:1rem;
+			line-height: 1.5rem;
+			color:#999999;
+		}
+
+		.hasImg div p:nth-child(1){
+			line-height: 2.5rem;
+		}
+		.hasImg div p:nth-child(2){
+			line-height: 1.5rem;
+			color:#999999;
+		}
+
+		#abbr_supply ul li{
+			border-bottom: 1px solid #e6e6e6; 
+			-webkit-box-sizing:border-box;
+			-moz-box-sizing: border-box;
+			-o-box-sizing:border-box;
+			box-sizing: border-box;
+			height:4rem;
+		}
+		#abbr_supply ul li.active{
+			background-color: #f2f2f2;
+		}
+		#abbr_supply ul li span{ 
+			display:inline-block;
+			color:#fff;
+			padding:1px;
+			font-size:12px;
+			margin-right:4px;
+			vertical-align:text-top;
+			height:1rem;
+			line-height:1rem;
+		}
+		#abbr_supply ul li p{
+			height:2rem;
+			padding-left:1rem;
+			padding-right:1rem;
+			white-space: nowrap; 
+			overflow: hidden; 
+			text-overflow: ellipsis;
+			color: #3b3b3b;
+		}
+		#abbr_supply ul li p:nth-child(1){
+			line-height:2.5rem;
+		}
+		#abbr_supply ul li p:nth-child(2){
+			color:#999999;
+			line-height:1.5rem;
+		}
+		.sale{
+			background-color:#60AFFF;
+		}
+		.buy{
+			background-color:#FF745E;
+		}
+
+
+		#circleList{
+    		width:100%;
+    	}
+    	#abbr_circle ul li{
+    		list-style: none;
+    		font-size:0px;
+    		height:4rem;
+    	}
+    	.circle-img{
+    		display:inline-block;
+    		width:4rem;
+    		height:4rem;
+    		background-color:#fff;
+    		-webkit-box-sizing:border-box;
+    		-moz-box-sizing: border-box;
+    		-ms-box-sizing:border-box;
+    		-o-box-sizing:border-box;
+    		box-sizing: border-box;
+    	}
+    	.circle-img img{
+    		width:80%;
+    		height:80%;
+			margin:10%;
+			-webkit-border-radius:50%;
+			-moz-border-radius:50%;
+			-ms-border-radius:50%;
+			-o-border-radius:50%;
+			border-radius:50%;
+    	}
+    	.circle-dynamic{
+    		width:100%;
+    		height:4rem;
+    		display:inline-block;
+    		position:absolute;
+    		padding-left:4rem;
+    		margin-left:-4rem;
+    		z-index:-1;
+    		border-bottom:1px solid #e6e6e6;
+    		-webkit-box-sizing:border-box;
+    		-moz-box-sizing: border-box;
+    		-ms-box-sizing:border-box;
+    		-o-box-sizing:border-box;
+    		box-sizing: border-box;
+    	}
+    	.circle-dynamic p{
+    		height:2rem;
+    		font-size:1rem;
+    		-webkit-box-sizing:border-box;
+    		-moz-box-sizing: border-box;
+    		-ms-box-sizing:border-box;
+    		-o-box-sizing:border-box;
+    		box-sizing: border-box;
+    	}
+    	.circle-dynamic p:nth-child(1){
+			line-height:2.5rem;
+			padding-right:1rem;
+    	}
+    	.circle-dynamic p:nth-child(2){
+    		line-height:1.5rem;
+    		padding-right:1rem;
+    		color:#999999;;
+    	}
+	</style>
+</head>
+<body>
+	<script type="text/template" id="abbr_advertiseTem">
+		 <div class="swiper-container">
+		   <div class="swiper-wrapper">
+		   	{{for (var i = 0; i < it.length; i++) {}}
+		   		<div class="swiper-slide" style="background-image:url({{=it[i].img}})" onclick="adClick('{{=it[i].index}}','{{=it[i].id}}')">
+			       <p class="title">{{=it[i].title}}</p>
+			    </div>
+		   	{{}}}
+		   	</div>
+		   <div class="pagination"></div>
+		 </div>
+	</script>
+	<div id="abbr_advertise">
+	</div>
+	<!--咨讯-->
+	<div id="abbr_advisory">
+		<p class="navSecond" onclick="openAdvisory()">资讯</p>
+		<script type="text/template" id="advisoryTem">
+			{{ for (var i = 0; i < it.length; i++) { }}
+				 {{ if(it[i].advImg){ }}
+				 	<li class="hasImg" tapmode="" onclick="advClick({{=it[i].advId}});">
+				 		<span><img src="{{=it[i].advImg}}"></span>
+				 		<div>
+				 			<p>{{=it[i].advTitle}}</p>
+				 			<p>{{=it[i].advTime}}</p>
+				 		</div>
+				 	</li>
+				 {{ }else{ }}
+				 	<li class="noImg" tapmode="" onclick="advClick({{=it[i].advId}});">
+					 	<p>{{=it[i].advTitle}}</p>
+					 	<p>{{=it[i].advTime}}</p>
+				 	</li>
+				 {{ } }}
+			{{ } }}
+		</script>
+	    <ul id="advisoryCon">	
+	    </ul>
+	</div>
+	<!--供求-->
+	<div id="abbr_supply">
+	    <p class="navSecond" onclick="openSupply()">供求</p>
+	    <script type="text/x-dot-template" id="supplyInfoList">
+	    	{{for(var i=0,len=it.length; i<len;i++){ }}
+	    		<li tapmode="" onclick="listClick('{{=it[i].id}}');">
+	    			<p><span class="{{=it[i].buyOrSaleClass}}">{{=it[i].buyOrSaleText}}</span>{{=it[i].title}}</p>
+	    			<p>{{=it[i].subTitle}}</p>
+	    		</li>
+	    	{{ } }}
+	    </script>
+	    <ul id="infoList">
+	    </ul>
+	</div>
+	<!--圈子-->
+	<div id="abbr_circle">
+	    <p class="navSecond" onclick="openCircle()">圈子</p>
+	    <script type="text/template" id="circleTemplate">
+	    {{ for(var i=0;i<it.length;i++){ }}
+	    	<li>
+	    		<span class="circle-img" tapmode="" onclick="openPersonDymanic('{{=it[i].userId}}');">
+	    			<img src="{{=it[i].userImg}}">
+	    		</span>
+	    		<div class="circle-dynamic" >
+	    			<p tapmode="" onclick="openDynamicDetail('{{=it[i].dynamicId}}');">{{=it[i].dynamicTitle}}</p>
+	    			<p onclick="openPersonDymanic('{{=it[i].userId}}');">{{=it[i].userNickName}}|{{=it[i].userTime}}</p>
+	    		</div>
+	    	</li>
+	    {{ } }}
+	    </script>
+	    <ul id="circleList">
+	    </ul>
+	</div>
+	<script type="text/javascript" src="../script/jquery-1.10.1.min.js"></script>
+	<script type="text/javascript" src="../script/timber.js"></script>
+	<script type="text/javascript" src="../script/doT.min.js"></script>
+	<script type="text/javascript" src="../script/common.js"></script>
+	<script type="text/javascript">
+			common.getAdvertisement(function(t){
+				console.log(t);
+				common.templateData("#abbr_advertiseTem","#abbr_advertise",t);
+				var mySwiper = new Swiper('.swiper-container',{
+				  pagination: '.pagination',
+				  autoplay:2000,
+				  loop:true,
+		    	  paginationClickable: true
+				});
+			});
+
+			function adClick(index,id){
+				switch(index){
+					case "news":
+						api.openWin({
+							name:"advisory_detail",
+							pageParam:{id:id},
+							url:"./advisory_detail.html"
+						});
+						break;
+					case "demand":
+						api.openWin({
+						    name: 'supply_detail',
+				            pageParam:{supply_detail:id},
+						    url: './supply_detail.html'
+						});
+						break;
+					case "circle":
+						api.openWin({
+							name:"circle_dynamic_detail",
+							url:"./circle_dynamic_detail.html",
+							pageParam:{circle_dynamic_id:id}
+						});
+						break;
+				}
+			};
+			var staticUrl="http://www.anywood.com";
+			function openAdvisory(){
+				// api.setFrameGroupIndex({
+			 //    name: 'group',
+			 //    index: 1
+				// });
+				timber.randomSwitchBtn(1);
+			}
+			function openSupply(){
+				// api.setFrameGroupIndex({
+			 //    name: 'group',
+			 //    index: 2
+				// });
+				timber.randomSwitchBtn(2);
+			}
+
+			function openCircle(){
+				// api.setFrameGroupIndex({
+			 //    name: 'group',
+			 //    index: 3
+				// });
+				timber.randomSwitchBtn(3);
+			}
+
+			function initHight(){
+				var width=$(window).width();
+				var abbr_advertise=$("#abbr_advertise");
+				var abbr_advisory=$("#abbr_advisory");
+				var abbr_supply=$("#abbr_supply");
+				var abbr_member=$("#abbr_member");
+				abbr_advertise.css('height',width/2+'px');
+				abbr_advisory.css('height',width*0.947+'px');
+				abbr_supply.css('height',width*0.947+'px');
+				abbr_member.css('height',width*0.947+'px');
+			}
+
+			function advisorySimple(){
+				common.getAdvisorys("",function(data){
+					var advisoryLists=[];
+					for (var i = 0; i < 4; i++) {
+						if(parseInt(data[i].cover_id)){
+								advisoryLists.push({
+								advId:data[i].id,
+								advTitle:data[i].title,
+								advTime:common.timeFormate(data[i].create_time),
+								advImg:staticUrl+data[i].cover_thumb_url
+							})
+							}else{
+								advisoryLists.push({
+									advId:data[i].id,
+									advTitle:data[i].title,
+									advTime:common.timeFormate(data[i].create_time),
+								})
+							}
+					}
+					common.templateData("#advisoryTem","#advisoryCon",advisoryLists);
+				});
+			}
+			
+			advisorySimple();
+			function advClick(id){
+				api.openWin({
+					name:"advisory_detail",
+					pageParam:{id:id},
+					url:"./advisory_detail.html"
+				})
+			}
+			
+			function supplySimple(){
+				common.getSupplys("",function(data){
+					var list=[];
+					
+					for (var i = 0; i < 4; i++) {
+						list.push({
+							id:data[i].id,
+							buyOrSaleClass:data[i].buy_or_sale==1?"sale":"buy",
+							buyOrSaleText:data[i].buy_or_sale==1?"销售":"采购",
+							title:data[i].title,
+							subTitle:data[i].user.nickname+"|"+common.timeFormate(data[i].create_time)
+						})
+					};
+					common.templateData("#supplyInfoList","#infoList",list);
+				})
+			}
+			supplySimple();
+			var listClick=function(id){
+				api.openWin({
+	    		    name: 'supply_detail',
+	                pageParam:{supply_detail:id},
+	    		    url: './supply_detail.html'
+	    		});
+			}
+
+			function circleSimply(){
+				common.getCircles("",function(data){
+					var circleList=[];
+					for(var i=0;i<4;i++){
+						var message={};
+						// console.log(data[i]);
+						message.userImg=staticUrl+data[i].avatar;// 头像
+						message.dynamicTitle=data[i].dynamic.title||"&nbsp";
+						message.dynamicId=data[i].dynamic.id||"";
+						message.userTime=common.timeFormate(data[i].last_update_time);
+						message.userId=data[i].uid;
+						message.userNickName=data[i].nickname;
+						//console.log(message);
+						circleList.push(message);
+						//console.log(circleList);
+					}
+					common.templateData("#circleTemplate","#circleList",circleList);
+				});
+			}
+			circleSimply();
+			function openPersonDymanic(id){
+		    	api.openWin({
+		    		name:"member_dynamic",
+		    		url:"./member_dynamic.html",
+		    		pageParam:{member_dynamic_id:id}
+		    	});
+		    }
+
+		    function openDynamicDetail(id){
+		    	api.openWin({
+		    		name:"circle_dynamic_detail",
+		    		url:"./circle_dynamic_detail.html",
+		    		pageParam:{circle_dynamic_id:id}
+		    	});
+		    }
+
+			//initHight();
+	</script>
+</body>
+</html>
