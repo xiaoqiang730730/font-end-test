@@ -1,0 +1,131 @@
+
+html, body, ul,li {
+    margin: 0px;
+    padding: 0px;
+}
+
+div.index_box{
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    bottom: 60px;
+
+    header{
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        right: 0px;
+        height: 50px;
+        padding: 0px 15px;
+        background: #fe4444;
+        
+        h1{
+            font-size: 24px;
+            margin: 0px;
+            padding: 0px;
+            line-height: 50px;
+            color: #FFF;
+            float: left;
+        }
+        
+        input{
+            float: right;
+            width: 50px;
+            height: 50px;
+            border: 0px;
+            background-image: url('../images/icon/search.png');
+            background-color: transparent;
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: 26px;
+            outline: none;
+        }
+    }
+
+    section{
+        position: fixed;
+        top: 50px;
+        left: 0px;
+        right: 0px;
+        bottom: 60px;
+        background: #CCC;
+    }
+}
+
+footer {
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
+    height: 60px;
+    background: #000;
+
+    ul {
+        list-style: none;
+
+        li {
+            float: left;
+            width: 20%;
+            text-align: center;
+            background-repeat: no-repeat;
+            background-position: center 5px;
+            background-size: 35px;
+            background-color: #1f1f1f;
+            color: #FFF;
+
+            &.home {
+                background-image: url('../images/icon/home.png');
+
+                &.active {
+                    background-image: url('../images/icon/home_active.png');
+                }
+            }
+            &.news {
+                background-image: url('../images/icon/news.png');
+
+                &.active {
+                    background-image: url('../images/icon/news_active.png');
+                }
+            }
+            &.demand {
+                background-image: url('../images/icon/demand.png');
+
+                &.active {
+                    background-image: url('../images/icon/demand_active.png');
+                }
+            }
+            &.circle {
+                background-image: url('../images/icon/circle.png');
+
+                &.active {
+                    background-image: url('../images/icon/circle_active.png');
+                }
+            }
+            &.user {
+                background-image: url('../images/icon/user.png');
+
+                &.active {
+                    background-image: url('../images/icon/user_active.png');
+                }
+            }
+
+            a {
+                display: block;
+                font-size: 14px;
+                text-align: center;
+                padding-top: 40px;
+                line-height: 20px;
+                color: #FFF;
+                text-decoration: none;
+
+            }
+
+            &.active {
+                a{
+                    color: #fe4444;
+                }
+            }
+        }
+    }
+}

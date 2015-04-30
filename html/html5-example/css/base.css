@@ -1,0 +1,115 @@
+html,
+body,
+ul,
+li {
+  margin: 0px;
+  padding: 0px;
+}
+div.index_box {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  bottom: 60px;
+}
+div.index_box header {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
+  height: 50px;
+  padding: 0px 15px;
+  background: #fe4444;
+}
+div.index_box header h1 {
+  font-size: 24px;
+  margin: 0px;
+  padding: 0px;
+  line-height: 50px;
+  color: #FFF;
+  float: left;
+}
+div.index_box header input {
+  float: right;
+  width: 50px;
+  height: 50px;
+  border: 0px;
+  background-image: url('../images/icon/search.png');
+  background-color: transparent;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 26px;
+  outline: none;
+}
+div.index_box section {
+  position: fixed;
+  top: 50px;
+  left: 0px;
+  right: 0px;
+  bottom: 60px;
+  background: #CCC;
+}
+footer {
+  position: fixed;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  height: 60px;
+  background: #000;
+}
+footer ul {
+  list-style: none;
+}
+footer ul li {
+  float: left;
+  width: 20%;
+  text-align: center;
+  background-repeat: no-repeat;
+  background-position: center 5px;
+  background-size: 35px;
+  background-color: #1f1f1f;
+  color: #FFF;
+}
+footer ul li.home {
+  background-image: url('../images/icon/home.png');
+}
+footer ul li.home.active {
+  background-image: url('../images/icon/home_active.png');
+}
+footer ul li.news {
+  background-image: url('../images/icon/news.png');
+}
+footer ul li.news.active {
+  background-image: url('../images/icon/news_active.png');
+}
+footer ul li.demand {
+  background-image: url('../images/icon/demand.png');
+}
+footer ul li.demand.active {
+  background-image: url('../images/icon/demand_active.png');
+}
+footer ul li.circle {
+  background-image: url('../images/icon/circle.png');
+}
+footer ul li.circle.active {
+  background-image: url('../images/icon/circle_active.png');
+}
+footer ul li.user {
+  background-image: url('../images/icon/user.png');
+}
+footer ul li.user.active {
+  background-image: url('../images/icon/user_active.png');
+}
+footer ul li a {
+  display: block;
+  font-size: 14px;
+  text-align: center;
+  padding-top: 40px;
+  line-height: 20px;
+  color: #FFF;
+  text-decoration: none;
+}
+footer ul li.active a {
+  color: #fe4444;
+}
+/*# sourceMappingURL=base.css.map */
