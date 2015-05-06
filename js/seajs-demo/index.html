@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<link rel="icon" href="./images/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="./node_modules/fullpage.js/jquery.fullPage.css">
+</head>
+<body>
+ 	<div class="page-body">
+        <div id="fullpage">
+                <div class="section section-one" id="section0">
+                    <div class="inner">
+                        <div class="main">
+                            <h3 class="image"><img src="./images/7.png" alt="看云KanCloud"></h3>
+                            <p class="summary">专注于文档在线创作、协作、分享和托管</p>
+                            <p class="into">
+                                <a href="/user/login" class="button">立即体验</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section section-two" id="section1">
+                    <div class="inner">
+                        <div class="main">
+                            <!-- <p class="image"><img src="__STATIC__/forward/image/10.png" alt=""></p> -->
+                            <p class="summary">看云致力于打造最佳的在线写作和阅读体验</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section section-three" id="section2">
+                    <div class="inner">
+                        <div class="main">
+                            <!-- <p class="image"><img src="__STATIC__/forward/image/8.png" alt=""></p> -->
+                            <p class="summary">全新体验的编辑模式，让你的创作更有灵感</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section section-four" id="section3">
+                    <div class="inner">
+                        <div class="main">
+                            <!-- <p class="image"><img src="__STATIC__/forward/image/8.png" alt=""></p> -->
+                            <p class="summary">响应式设计的阅读方式，阅读快捷键支持</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section section-five" id="section4">
+                    <div class="inner">
+                        <div class="main">
+                            <!-- <p class="image"><img src="__STATIC__/forward/image/9.png" alt=""></p> -->
+                            <p class="summary">支持下载为PDF/CHM等方便其他设备离线阅读</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section section-six" id="section5">
+                    <div class="inner">
+                        <div class="main">
+                            <!-- <p class="image"><img src="__STATIC__/forward/image/8.png" alt=""></p> -->
+                            <p class="summary">创建私有文档，以及文档权限控制</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="section section-seven" id="section6">
+                    <div class="inner">
+                        <div class="main">
+                            <p class="summary">从现在开始，把文档托管到云端！</p>
+                            <p class="into">
+                                <a href="/user/login" class="button">立即体验</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </div>
+    <script type="text/javascript" src="./node_modules/seajs/dist/sea.js"></script>
+    <script type="text/javascript">
+    	seajs.config({
+    		base:'./',
+    		paths: {
+    			'project':"project",
+    			'component':"node_modules"
+    		},
+    		preload:[
+    			'component/jquery/dist/jquery.js',
+    		],
+    		debug:true
+    	});
+    	seajs.use('project/index/index');
+    </script>
+</body>
+</html>
