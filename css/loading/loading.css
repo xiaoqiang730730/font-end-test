@@ -1,0 +1,29 @@
+*,*:before,*:after{
+	box-sizing:border-box;
+}
+@-webkit-keyframes load{
+	0%{
+		-webkit-transform: rotate(0);
+	}
+	100%{
+		-webkit-transform: rotate(360deg);
+	}
+}
+
+.loading:before{
+	position: absolute;
+	content: "";
+	width: 100px;
+	height: 100px;
+	border-radius: 50%;
+	border:6px solid rgba(0, 0, 0, 0.41);
+	border-left-color:#000;
+	-webkit-animation: load linear 1s infinite;
+}
+.loading:after{
+	position: absolute;
+	content: "";
+	width: 100px;
+	height: 100px;
+	background-color: rgba(204, 204, 204, 0.43);
+}
