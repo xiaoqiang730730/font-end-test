@@ -1,0 +1,28 @@
+.hack{
+	color: red; // all
+	_color: red;// only ie6
+	*color: red;// ie6/7
+	+color: red;//ie6/7
+	*+color: red;//ie6/7
+	[color:red;//ie6/7
+	color:red\9;//ie6/7/8/9
+	color:red\0; //ie8/9
+	color: red\9\0;//ie9
+	color: red \0;//ie9
+	color: red !important;// ie6 不识别 
+}
+/*选择器*/
+*html .hack{color: red}//ie6
+*+html .hack{color: red}// ie7
+body:nth-of-type(1) .hack{color: red}//ie9+,ff3.5+,chrome,safari,opera
+head:first-child+body .hack{color: red}//ie7+,ff,chrome,safari,opera
+:root .hack{color: red} // ie9
+
+<!--[if IE]><![endif]-->
+<!--[if IE 6]><![endif]-->
+<!--[if IE 7]><![endif]-->
+<!--[if !IE 7]><![endif]-->
+
+
+
+

@@ -92,7 +92,9 @@
     		],
     		debug:true
     	});
-    	seajs.use('project/index/index');
+    	seajs.use('project/index/index',function(index){
+            index.init();
+        });
     </script>
 </body>
 </html>
