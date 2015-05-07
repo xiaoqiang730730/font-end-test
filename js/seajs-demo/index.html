@@ -11,9 +11,62 @@
 	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
 	<link rel="icon" href="./images/favicon.ico">
 	<link rel="stylesheet" type="text/css" href="./node_modules/fullpage.js/jquery.fullPage.css">
+    <link rel="stylesheet" type="text/css" href="./css/index/app.css">
     <link rel="stylesheet" type="text/css" href="./css/index/index.css">
 </head>
 <body>
+<div class="m-page page-chancel page-forward">
+     <div class="page-head">
+            <div class="page-width">
+                <div class="left">
+                    <a class="e-brand" href="/"><img height="30" src="" alt="看云"></a>
+                    <ul class="m-navg">
+                        <think:nav name="nav">
+                            <li class="navg-item">
+                                <a class="navg-link" href="#">广场</a>
+                            </li>
+                            <li class="navg-item">
+                                <a class="navg-link" href="#">帮助</a>
+                            </li>
+                            <li class="navg-item">
+                                <a class="navg-link" href="#">反馈</a>
+                            </li>
+                        </think:nav>
+                    </ul>
+                    <form id="topbarSearch" class="w-search" autocomplete="off" method="get" action="/search">
+                        <label class="w-text text-m text-full search-enter"><input type="text" placeholder="请输入搜索关键词..." name="keyword" value="" class="text-input"></label>
+                        <button type="submit" class="search-btn icon-search"></button>
+                    </form>
+                </div>
+                <div class="right">
+                        <span class="auth">
+                            <a class="link login" href="/user/login">登录</a>
+                            <a class="link register" href="/user/register">注册</a>
+                        </span>
+                        <!-- <ul class="m-navg">
+                            <li class="navg-item member">
+                                <div class="w-drop drop-hover drop-br">
+                                    <span class="drop-show">
+                                        <a class="e-user" href="#" title=" "><img class="user-avatar" width="30" height="30" src=" "></a>
+                                    </span>
+                                    <div class="drop-hide">
+                                        <span class="drop-arrow">
+                                            <b style="margin-right: 18px;" class="drop-arrow-outer"><i class="drop-arrow-inner"></i></b>
+                                        </span>
+                                        <div class="drop-hide-inner">
+                                            <ul class="w-menu">
+                                                <li class="menu-item"><a class="menu-link" href=" ">我的文档</a></li>
+                                                <li class="menu-divider"></li>
+                                                <li class="menu-item"><a class="menu-link" href=" ">退出</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul> -->
+                </div>
+            </div>
+        </div>
  	<div class="page-body">
         <div id="fullpage">
                 <div class="section section-one" id="section0">
@@ -79,6 +132,7 @@
                 </div>
             </div>
     </div>
+</div>
     <script type="text/javascript" src="./node_modules/seajs/dist/sea.js"></script>
     <script type="text/javascript">
     	seajs.config({
