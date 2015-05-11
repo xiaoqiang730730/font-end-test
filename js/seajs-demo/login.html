@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>login</title>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<link rel="icon" href="./images/favicon.ico">
+	<link rel="stylesheet" type="text/css" href="./css/index/app.css">
+    <link rel="stylesheet" type="text/css" href="./css/index/index.css">
+    <style type="text/css">
+    body{ background: url(./images/40.jpg) no-repeat 50% 50% fixed; background-size: cover; }
+    </style>
+</head>
+<body>
+	<div class="m-page page-chancel page-forward">
+     <div class="page-head">
+            <div class="page-width">
+                <div class="left">
+                    <a class="e-brand" href="/"><img height="30" src="" alt="看云"></a>
+                    <ul class="m-navg">
+                        <think:nav name="nav">
+                            <li class="navg-item">
+                                <a class="navg-link" href="#">广场</a>
+                            </li>
+                            <li class="navg-item">
+                                <a class="navg-link" href="#">帮助</a>
+                            </li>
+                            <li class="navg-item">
+                                <a class="navg-link" href="#">反馈</a>
+                            </li>
+                        </think:nav>
+                    </ul>
+                    <form id="topbarSearch" class="w-search" autocomplete="off" method="get" action="/search">
+                        <label class="w-text text-m text-full search-enter"><input type="text" placeholder="请输入搜索关键词..." name="keyword" value="" class="text-input"></label>
+                        <button type="submit" class="search-btn icon-search"></button>
+                    </form>
+                </div>
+                <div class="right">
+                        <span class="auth">
+                            <a class="link login" href="./login.html">登录</a>
+                            <a class="link register" href="./register.html">注册</a>
+                        </span>
+                        <!-- <ul class="m-navg">
+                            <li class="navg-item member">
+                                <div class="w-drop drop-hover drop-br">
+                                    <span class="drop-show">
+                                        <a class="e-user" href="#" title=" "><img class="user-avatar" width="30" height="30" src=" "></a>
+                                    </span>
+                                    <div class="drop-hide">
+                                        <span class="drop-arrow">
+                                            <b style="margin-right: 18px;" class="drop-arrow-outer"><i class="drop-arrow-inner"></i></b>
+                                        </span>
+                                        <div class="drop-hide-inner">
+                                            <ul class="w-menu">
+                                                <li class="menu-item"><a class="menu-link" href=" ">我的文档</a></li>
+                                                <li class="menu-divider"></li>
+                                                <li class="menu-item"><a class="menu-link" href=" ">退出</a></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul> -->
+                </div>
+            </div>
+        </div>
+ 	<div class="page-body">
+        <div class="m-auth auth-login">
+        <div class="auth-slogan">用户登录</div>
+        <div class="auth-form w-form">
+            <form id="loginForm" action="" method="post" autocomplete="off" onsubmit="return false;">
+                <div class="form-item">
+                    <span class="w-text text-full text-mild text-x text-prefix">
+                        <input class="text-input" type="text" name="account" placeholder="昵称/邮箱">
+                        <i class="text-icon icon-head"></i>
+                    </span>
+                    <p class="w-fragment fragment-s fragment-tip"></p>
+                </div>
+                <div class="form-item">
+                    <label class="w-text text-full text-mild text-x text-prefix">
+                        <input class="text-input" type="password" name="password" placeholder="密码">
+                        <i class="text-icon icon-lock"></i>
+                    </label>
+                    <p class="w-fragment fragment-s fragment-tip"></p>
+                </div>
+                <div class="form-item verity-code">
+                    <label class="code-input w-text text-mild text-x text-prefix">
+                        <input name="code" class="text-input" type="text" placeholder="验证码" maxlength="4">
+                        <i class="text-icon icon-square-check"></i>
+                    </label>
+                    <img class="code-image" height="42" src="" onclick="this.src='" title="点击换一张">
+                    <p class="w-fragment fragment-s fragment-tip"></p>
+                </div>
+                <div class="form-item">
+                    <label class="w-checkbox">
+                        <input class="checkbox-input" name="is_auto" type="checkbox" checked="true" value="1"><span class="checkbox-text">保持登录</span>
+                    </label>
+                    <a class="w-link link-black fwb" href="/user/forgot">忘记密码？</a>
+                </div>
+                <div class="form-item">
+                    <label class="w-btn btn-full btn-x btn-mild btn-success"><button class="btn-input" type="submit">立即登录</button></label>
+                </div>
+            </form>
+        </div>
+        <div class="auth-cooperate">
+            <strong class="cooperate-title">使用第三方帐号登录</strong>
+            <div class="cooperate-list">
+                <a class="item github" href="" title="github登录"><img src="./images/1.png" alt=""></a>
+                <a class="item weixin" href="" title="微信登录"><img src="./images/2.png" alt=""></a>
+                <a class="item qq" href="" title="QQ登录"><img src="./images/3.png" alt=""></a>
+                <a class="item weibo" href="" title="新浪微博登录"><img src="./images/4.png" alt=""></a>
+            </div>
+        </div>
+        <div class="auth-other">
+            <a class="w-link link-black" href="/user/register">没有帐号，点击注册</a>
+
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="./node_modules/seajs/dist/sea.js"></script>
+<script type="text/javascript">
+	seajs.config({
+    		base:'./',
+    		paths: {
+    			'project':"project",
+    			'component':"node_modules"
+    		},
+    		preload:[
+    			'component/jquery/dist/jquery.js',
+    		],
+    		debug:true
+    	});
+    	seajs.use('project/index/login');
+</script>
+</body>
+</html>
