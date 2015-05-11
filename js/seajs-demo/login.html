@@ -131,7 +131,9 @@
     		],
     		debug:true
     	});
-    	seajs.use('project/index/login');
+    	seajs.use('project/index/login',function(t){
+    		t.initial();
+    	});
 </script>
 </body>
 </html>

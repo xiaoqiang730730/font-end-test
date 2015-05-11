@@ -1,4 +1,4 @@
-define("/project/index/login", function(require, exports, module) {
+define("project/index/login", function(require, exports, module) {
 	require("project/index/validator");
 	var init = {
 		loginFormEle : $('#loginForm'),
@@ -9,5 +9,5 @@ define("/project/index/login", function(require, exports, module) {
 			console.log(this.loginFormEle);
 		}
 	};
-	init.initial();
+	module.exports = init;
 });
