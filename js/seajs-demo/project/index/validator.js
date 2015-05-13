@@ -3,7 +3,11 @@ define('project/index/validator',function(require,exports,module){
     require('component/jquery-plugs/jquery.validator');
     //载入jquery.form插件
     require('component/jquery.form');
+    
     //将表单元素序列化为对象字面量
+    //$(form).serializeArray() 获取到的是[Object,Object,Object] Object={name:"",value:""}
+    //装换成对象字面量Object{}
+    //
     function serializeObject(form){
         var _object = {};
         if(form.nodeName == 'FORM'){
@@ -14,6 +18,7 @@ define('project/index/validator',function(require,exports,module){
         }
         return _object;
     }
+
     $.fn.clearValidate = function(){
         $(this).find('[name]').each(function(){
             element = $(this);
@@ -35,6 +40,7 @@ define('project/index/validator',function(require,exports,module){
             onAfter: null, //表单提交后触发函数
             loadingTpl: '<span class="form-loading">提交中...</span>'
         }, options);
+
         var _origValue = _form.serializeArray();
         var _origLength = _origValue.length;
         var _onComplete = _options.complete;
@@ -137,6 +143,7 @@ define('project/index/validator',function(require,exports,module){
             return false;
         });
         $.isFunction(_options.controlPoint) && _options.controlPoint.call(_form, valueChange);
+        
         //验证
         function check(element,form){
             var _group = element.closest('.form-item');

@@ -252,7 +252,7 @@ textarea {
 	display: none
 }
 .e-data.loading .icon {
-	background: url(../image/12.gif) no-repeat 50% 50%
+	background: url(../../images/12.gif) no-repeat 50% 50%
 }
 .e-code {
 	color: #999;
@@ -383,7 +383,7 @@ textarea {
 	content: ''
 }
 .e-agree.loading .icon, .e-oppose.loading .icon, .e-reply.loading .icon {
-	background: url(../image/12.gif) no-repeat 50% 0
+	background: url(../../images/12.gif) no-repeat 50% 0
 }
 .e-agree.loading:hover, .e-oppose.loading:hover, .e-reply.loading:hover {
 	color: #999
@@ -408,7 +408,7 @@ textarea {
 }
 .e-delete.loading {
 	cursor: default;
-	background: url(../image/12.gif) no-repeat 50% 0
+	background: url(../../images/12.gif) no-repeat 50% 0
 }
 .e-delete.loading .icon:before {
 	content: ''
@@ -449,7 +449,7 @@ textarea {
 	padding-right: 24px
 }
 .w-search .search-btn.btn-loading {
-	background: url(../image/12.gif) no-repeat 50% 50%;
+	background: url(../../images/12.gif) no-repeat 50% 50%;
 	cursor: default;
 	line-height: 9;
 	overflow: hidden
@@ -501,7 +501,7 @@ textarea {
 	height: 18px;
 	vertical-align: top;
 	margin-right: 4px;
-	background: url(../image/12.gif) no-repeat 50% 50%
+	background: url(../../images/12.gif) no-repeat 50% 50%
 }
 .w-btn .btn-input {
 	vertical-align: middle;
@@ -545,7 +545,7 @@ textarea {
 	height: 18px;
 	vertical-align: top;
 	margin-right: 4px;
-	background: url(../image/12.gif) no-repeat 50% 50%
+	background: url(../../images/12.gif) no-repeat 50% 50%
 }
 .w-btn.btn-s .btn-input {
 	font-size: 12px
@@ -583,7 +583,7 @@ textarea {
 	height: 18px;
 	vertical-align: top;
 	margin-right: 4px;
-	background: url(../image/12.gif) no-repeat 50% 50%
+	background: url(../../images/12.gif) no-repeat 50% 50%
 }
 .w-btn.btn-m .btn-input {
 	font-size: 14px
@@ -621,7 +621,7 @@ textarea {
 	height: 18px;
 	vertical-align: top;
 	margin-right: 4px;
-	background: url(../image/12.gif) no-repeat 50% 50%
+	background: url(../../images/12.gif) no-repeat 50% 50%
 }
 .w-btn.btn-l .btn-input {
 	font-size: 15px
@@ -659,7 +659,7 @@ textarea {
 	height: 18px;
 	vertical-align: top;
 	margin-right: 4px;
-	background: url(../image/12.gif) no-repeat 50% 50%
+	background: url(../../images/12.gif) no-repeat 50% 50%
 }
 .w-btn.btn-x .btn-input {
 	font-size: 16px;
@@ -2101,7 +2101,7 @@ html pre.prettyprint:hover .m-copy-code {
 	height: 18px;
 	line-height: 9;
 	overflow: hidden;
-	background: url(../image/12.gif) no-repeat 50% 50%
+	background: url(../../images/12.gif) no-repeat 50% 50%
 }
 .think-spinner {
 	display: inline-block;
@@ -2972,7 +2972,7 @@ html pre.prettyprint:hover .m-copy-code {
 	display: none
 }
 .m-manual .manual-collect .collect-list li .delete.loading {
-	background: url(../image/12.gif) no-repeat 50% 50%
+	background: url(../../images/12.gif) no-repeat 50% 50%
 }
 .m-manual .manual-collect .collect-list li .delete.loading:hover {
 	transform: rotate(0deg);
@@ -3540,7 +3540,7 @@ html pre.prettyprint:hover .m-copy-code {
 	display: none
 }
 .m-article .article-view .view-head .head-util .item.collect.loading .icon {
-	background: url(../image/12.gif) no-repeat 50% 50%
+	background: url(../../images/12.gif) no-repeat 50% 50%
 }
 .m-article .article-view .view-body {
 	min-height: 90px
@@ -4756,7 +4756,7 @@ html pre.prettyprint:hover .m-copy-code {
 	display: inline-block;
 	line-height: 9;
 	overflow: hidden;
-	background: url(../image/12.gif) no-repeat 50% 50%
+	background: url(../../images/12.gif) no-repeat 50% 50%
 }
 .think-tree .tree-create .form .form-loading {
 	display: none
@@ -5701,7 +5701,7 @@ html pre.prettyprint:hover .m-copy-code {
 	height: 14px;
 	display: inline-block;
 	margin-right: 6px;
-	background: url(../image/12.gif) no-repeat 50% 50%
+	background: url(../../images/12.gif) no-repeat 50% 50%
 }
 .m-member-select .member-select-filter .filter-fast .think-loading .loading-text {
 	font-weight: 200;
