@@ -1,2 +1,2 @@
 # font-end-test
-do some example to test font-end knowledge
+do some example to test front-end knowledge
