@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>index</title>
+</head>
+<body>
+<script type="text/javascript">
+	var module = {
+		exports: {}
+	};
+	(function(module, exports){
+		exports.multiply = function (n){
+			return n * 1000;
+		}
+	}(module, module.exports))
+
+	var f = module.exports.multiply;
+	console.log(f(10));
+</script>
+</body>
+</html>
