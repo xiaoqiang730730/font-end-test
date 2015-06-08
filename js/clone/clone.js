@@ -136,3 +136,10 @@ function deepClone3(obj){
 
 var oNew3=deepClone3(oPerson);
 console.log(oNew3.ofavorite[1].reading);
+
+
+// 可以使用
+// JSON.stringify();
+// JSON.parse();
+// 做个转化，
+// 但是存在function()对象无法成功
