@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>字符数</title>
+</head>
+<body>
+	<script type="text/javascript">
+		function limitLength(value, byteLength, title, attribute) {
+		    var newvalue = value.replace(/[^\x00-\xff]/g, "**");
+		    var length = newvalue.length;
+		    //当输入文字的字节数小于设定的字节数
+		    if (length * 1 <=byteLength * 1){
+		          return;
+		    }
+		    var limitDate = newvalue.substr(0, byteLength);
+		    var count = 0;
+		    var limitvalue = "";
+		    for (var i = 0; i < limitDate.length; i++) {
+		        var flat = limitDate.substr(i, 1);
+		        if (flat == "*") {
+		              count++;
+		        }
+		     }
+		     var size = 0;
+		     var istar = newvalue.substr(byteLength * 1 - 1, 1);//校验点是否为“×”
+		    //if 基点是×; 判断在基点内有×为偶数还是奇数
+		     if (count % 2 === 0) {
+		              //当为偶数
+		            size = count / 2 + (byteLength * 1 - count);
+		            limitvalue = value.substr(0, size);
+		    } else {
+		            //当为奇数时
+		            size = (count - 1) / 2 + (byteLength * 1 - count);
+		            limitvalue = value.substr(0, size);
+		    }
+		   alert(title + "最大输入" + byteLength + "个字节（相当于"+byteLength /2+"个汉字）！");
+		   document.getElementById(attribute).value = limitvalue;
+		   return;
+		}
+
+		function getLeftWord(str){
+			var realLength = 0;
+			for (var i = 0; i < str.length; i++) {
+				charCode = str.charCodeAt(i);
+				if (charCode >= 0 && charCode <= 128)
+					realLength += 0.5;
+				else
+					realLength += 1;
+			}
+			return Math.ceil(realLength);
+		}
+
+	 	function length1(str)   
+		{  
+		    return str.replace(/[^\x00-\xff]/g,"aa").length;  
+		}
+		//第三种  
+		function length2(s)   
+		{  
+		    var len = 0;  
+		    for(var i=0; i<s.length; i++)   
+		    {  
+		        var c = s.substr(i,1);  
+		        var ts = escape(c);  
+		        if(ts.substring(0,2) == "%u")   
+		        {  
+		            len+=2;  
+		        } else   
+		        {  
+		            len+=1;  
+		        }  
+		    }  
+		    return len;  
+		}  
+	</script>
+</body>
+</html>
