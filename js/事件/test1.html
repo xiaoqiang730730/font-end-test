@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+	<div id="test2">
+		<button id="test1">test</button>
+	</div>
+	<script type="text/javascript">
+		var test1 = document.getElementById('test1');
+		var test2 = document.getElementById('test2');
+
+		// html 事件 
+		// <button onclick="function(){}"></button>
+		// 不方便 耦合紧
+		// 
+		// dom0事件
+		test1.onclick = function(e){
+			console.log(e);
+			alert('hehe');
+		};
+		// 会覆盖之前的click事件
+		test1.onclick = function(e){
+
+			alert('hehe1');
+		};
+		test1.onclick = null;
+
+		// dom2 事件
+		// 事件不会覆盖
+		// 
+		test1.addEventListener('click', function(e){
+			console.log(e);
+			alert('dom2');
+		});
+		// test1.addEventListener('click', function(){
+		// });
+		test2.addEventListener('click', function(e){
+			console.log(e);
+		});
+		test1.removeEventListener('click',function(e){
+			console.log(e);
+			alert('dom2');
+		});
+ 	</script>
+</body>
+</html>
